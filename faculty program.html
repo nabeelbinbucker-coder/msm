@@ -1,0 +1,422 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Join Faculty | CRE</title>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600;700;800&family=Playfair+Display:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+    <style>
+        /* --- GLOBAL & VARIABLES --- */
+        :root {
+            --bg-dark: #0a0a0a;
+            --cre-magenta: #9D2B6B; /* Faculty Theme Color */
+            --cre-magenta-glow: rgba(157, 43, 107, 0.4);
+            --text-main: #f0f0f0;
+            --text-muted: #888;
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        body { 
+            font-family: 'Montserrat', sans-serif; 
+            color: var(--text-main); 
+            background-color: var(--bg-dark); 
+            overflow-x: hidden; 
+        } 
+        a { text-decoration: none; color: inherit; transition: 0.3s; }
+        ul { list-style: none; }
+
+        /* --- BACKGROUND ANIMATION (The Network) --- */
+        .network-bg {
+            position: fixed;
+            top: 0; left: 0; width: 100%; height: 100%;
+            z-index: -1;
+            background: radial-gradient(circle at 10% 10%, rgba(157, 43, 107, 0.05) 0%, transparent 40%);
+        }
+        .particle {
+            position: absolute;
+            background: var(--cre-magenta);
+            border-radius: 50%;
+            opacity: 0.3;
+            animation: float 20s infinite linear;
+        }
+        @keyframes float {
+            0% { transform: translateY(0) translateX(0); opacity: 0; }
+            50% { opacity: 0.5; }
+            100% { transform: translateY(-100vh) translateX(50px); opacity: 0; }
+        }
+
+        /* --- NAVIGATION --- */
+        .sticky-nav {
+            background-color: rgba(10, 10, 10, 0.9);
+            border-bottom: 1px solid #222;
+            width: 100%;
+            z-index: 1000;
+            position: sticky;
+            top: 0;
+            backdrop-filter: blur(10px);
+        }
+        .nav-inner {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+            height: 60px;
+        }
+        .nav-logo img { height: 35px; width: auto; }
+        .nav-links { display: flex; gap: 0; height: 100%; align-items: center; }
+        .nav-links > li { height: 100%; display: flex; align-items: center; padding: 0 20px; }
+        .nav-links > li > a { text-transform: uppercase; font-size: 0.8rem; font-weight: 700; color: #fff; }
+        .nav-links > li:hover { background-color: var(--cre-magenta); }
+
+        /* --- MAIN SPLIT LAYOUT --- */
+        .split-container {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            min-height: 90vh; /* Adjusted to allow Hadith section */
+            padding-top: 20px;
+        }
+
+        /* LEFT SIDE: The Manifesto */
+        .left-panel {
+            padding: 80px 60px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            position: relative;
+        }
+        
+        .role-tag {
+            color: var(--cre-magenta);
+            font-family: 'Courier New', monospace;
+            font-size: 0.9rem;
+            letter-spacing: 2px;
+            margin-bottom: 20px;
+            display: inline-block;
+            border: 1px solid var(--cre-magenta);
+            padding: 5px 15px;
+            border-radius: 20px;
+            width: fit-content;
+        }
+
+        .hero-title {
+            font-size: 4.5rem;
+            font-weight: 800;
+            line-height: 1.1;
+            margin-bottom: 30px;
+        }
+        .hero-title span { color: var(--cre-magenta); }
+
+        .hero-desc {
+            font-size: 1.1rem;
+            color: var(--text-muted);
+            line-height: 1.8;
+            max-width: 500px;
+            margin-bottom: 50px;
+        }
+
+        .benefit-list li {
+            display: flex;
+            align-items: center;
+            margin-bottom: 15px;
+            font-size: 0.9rem;
+            color: #ddd;
+        }
+        .benefit-list i {
+            color: var(--cre-magenta);
+            margin-right: 15px;
+            font-size: 1.2rem;
+        }
+
+        /* RIGHT SIDE: The Form */
+        .right-panel {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 40px;
+        }
+
+        .faculty-form-card {
+            background: rgba(20, 20, 20, 0.8);
+            border: 1px solid #333;
+            padding: 50px;
+            width: 100%;
+            max-width: 550px;
+            border-radius: 15px;
+            box-shadow: 0 20px 50px rgba(0,0,0,0.5);
+            backdrop-filter: blur(10px);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .faculty-form-card::before {
+            content: ''; position: absolute; top: 0; left: 0; width: 100%; height: 3px;
+            background: linear-gradient(90deg, transparent, var(--cre-magenta), transparent);
+        }
+
+        .form-header { margin-bottom: 30px; text-align: center; }
+        .form-header h3 { font-size: 1.8rem; margin-bottom: 10px; }
+        .form-header p { color: #666; font-size: 0.8rem; }
+
+        .input-group { position: relative; margin-bottom: 25px; }
+
+        .form-input {
+            width: 100%;
+            background: #0f0f0f;
+            border: 1px solid #333;
+            color: #fff;
+            padding: 15px;
+            font-size: 1rem;
+            font-family: 'Montserrat', sans-serif;
+            border-radius: 5px;
+            outline: none;
+            transition: 0.3s;
+        }
+
+        .form-label {
+            position: absolute;
+            left: 15px;
+            top: 15px;
+            color: #666;
+            font-size: 0.9rem;
+            pointer-events: none;
+            transition: 0.3s;
+            background-color: #0f0f0f;
+            padding: 0 5px;
+        }
+
+        .form-input:focus, .form-input:valid {
+            border-color: var(--cre-magenta);
+            box-shadow: 0 0 15px var(--cre-magenta-glow);
+        }
+        .form-input:focus ~ .form-label,
+        .form-input:valid ~ .form-label {
+            top: -10px;
+            font-size: 0.75rem;
+            color: var(--cre-magenta);
+            font-weight: 600;
+        }
+
+        .submit-btn {
+            width: 100%;
+            padding: 18px;
+            background-color: var(--cre-magenta);
+            color: #fff;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: 0.3s;
+            margin-top: 10px;
+        }
+        .submit-btn:hover {
+            background-color: #fff;
+            color: #000;
+            box-shadow: 0 0 30px var(--cre-magenta-glow);
+        }
+
+        .form-footer {
+            margin-top: 20px;
+            text-align: center;
+            font-size: 0.7rem;
+            color: #555;
+        }
+
+        /* --- HADITH SECTION (Crazy Ones Animation) --- */
+        .hadith-section {
+            background-color: #000; /* Pure black to contrast */
+            padding: 100px 15%;
+            text-align: center;
+            border-top: 1px solid #111;
+            position: relative;
+            z-index: 2;
+        }
+
+        .manifesto-line {
+            font-family: 'Playfair Display', serif; /* Elegant font for Hadith */
+            font-size: 1.8rem;
+            line-height: 1.6;
+            color: #222; /* Hidden/Dark initially */
+            filter: blur(4px); /* Blurred initially */
+            transition: all 0.6s cubic-bezier(0.165, 0.84, 0.44, 1);
+            cursor: default;
+            display: inline;
+        }
+
+        /* Hover Effect */
+        .manifesto-line:hover {
+            color: #fff;
+            filter: blur(0px);
+            text-shadow: 0 0 15px var(--cre-magenta-glow);
+        }
+        
+        .manifesto-line strong {
+            color: var(--cre-magenta);
+        }
+
+        .hadith-ref {
+            margin-top: 40px;
+            font-family: 'Montserrat', sans-serif;
+            font-size: 0.8rem;
+            letter-spacing: 2px;
+            color: #555;
+            text-transform: uppercase;
+            opacity: 0.6;
+        }
+
+        /* --- ANIMATIONS --- */
+        .reveal-up { opacity: 0; transform: translateY(30px); animation: fadeUp 0.8s forwards; }
+        .delay-1 { animation-delay: 0.2s; }
+        .delay-2 { animation-delay: 0.4s; }
+        .delay-3 { animation-delay: 0.6s; }
+
+        @keyframes fadeUp { to { opacity: 1; transform: translateY(0); } }
+
+        /* Responsive */
+        @media (max-width: 900px) {
+            .split-container { grid-template-columns: 1fr; }
+            .left-panel { padding: 60px 20px; text-align: center; align-items: center; }
+            .hero-title { font-size: 3rem; }
+            .benefit-list { text-align: left; }
+            .right-panel { padding: 20px; }
+            /* Mobile Hadith Readability fix */
+            .manifesto-line { filter: blur(0); color: #555; font-size: 1.2rem; }
+            .manifesto-line:hover { color: #fff; }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="network-bg" id="particles"></div>
+
+    <nav class="sticky-nav">
+        <div class="nav-inner">
+            <a href="cre.html" class="nav-logo">
+                <img src="https://via.placeholder.com/120x40/9D2B6B/000000?text=CRE+LOGO" alt="CRE Logo">
+            </a>
+            <ul class="nav-links">
+                <li><a href="cre.html">Back to CRE</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <div class="split-container">
+        
+        <div class="left-panel">
+            <div class="role-tag reveal-up">CRE FACULTY PROGRAM</div>
+            
+            <h1 class="hero-title reveal-up delay-1">
+                Shape the <br><span>Future Minds.</span>
+            </h1>
+            
+            <p class="hero-desc reveal-up delay-2">
+                Join a prestigious network of 77+ centers. We are looking for mentors who combine religious depth with modern academic rigor.
+            </p>
+
+            <ul class="benefit-list reveal-up delay-3">
+                <li><i class="fas fa-check"></i> Access to unified syllabus & resources.</li>
+                <li><i class="fas fa-check"></i> Mentorship certification.</li>
+                <li><i class="fas fa-check"></i> Flexible weekend scheduling.</li>
+                <li><i class="fas fa-check"></i> Impact the lives of youth (18+).</li>
+            </ul>
+        </div>
+
+        <div class="right-panel">
+            <div class="faculty-form-card reveal-up delay-2">
+                <div class="form-header">
+                    <h3>Faculty Application</h3>
+                    <p>Complete the form below. We will review your profile.</p>
+                </div>
+
+                <form>
+                    <div class="input-group">
+                        <input type="text" class="form-input" required>
+                        <label class="form-label">Full Name</label>
+                    </div>
+
+                    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 20px;">
+                        <div class="input-group">
+                            <input type="email" class="form-input" required>
+                            <label class="form-label">Email Address</label>
+                        </div>
+                        <div class="input-group">
+                            <input type="tel" class="form-input" required>
+                            <label class="form-label">Phone Number</label>
+                        </div>
+                    </div>
+
+                    <div class="input-group">
+                        <input type="text" class="form-input" required>
+                        <label class="form-label">Area of Expertise (e.g., Fiqh, History)</label>
+                    </div>
+
+                    <div class="input-group">
+                        <textarea class="form-input" style="height: 100px; resize: none;" required></textarea>
+                        <label class="form-label">Teaching Experience / Qualifications</label>
+                    </div>
+
+                    <button type="submit" class="submit-btn">Submit Application</button>
+
+                    <div class="form-footer">
+                        By applying, you agree to our Faculty Code of Conduct.
+                    </div>
+                </form>
+            </div>
+        </div>
+
+    </div>
+
+    <section class="hadith-section reveal-on-scroll">
+        <div class="manifesto-wrapper">
+            <span class="manifesto-line">"Verily, <strong>God</strong>, </span>
+            <span class="manifesto-line">His angels, </span>
+            <span class="manifesto-line">the inhabitants of the <strong>Heavens</strong> </span>
+            <span class="manifesto-line">and the <strong>Earth</strong>, </span>
+            <span class="manifesto-line">even the <strong>ant</strong> in its hole </span>
+            <span class="manifesto-line">and the <strong>fish</strong> in the sea, </span>
+            <span class="manifesto-line">send blessings upon </span>
+            <span class="manifesto-line" style="color: var(--cre-magenta); filter: blur(0.5px);">the one who teaches people good."</span>
+        </div>
+        <div class="hadith-ref">— Prophet Muhammad ﷺ (Jami` at-Tirmidhi 2685)</div>
+    </section>
+
+    <footer style="background:#000; padding: 20px; text-align: center; border-top: 1px solid #111; color: #444; font-size: 0.7rem;">
+        &copy; 2023 CRE Faculty Dept. MSM Studios.
+    </footer>
+
+    <script>
+        // Particles
+        const particleContainer = document.getElementById('particles');
+        for(let i=0; i<30; i++) {
+            let p = document.createElement('div');
+            p.classList.add('particle');
+            let size = Math.random() * 5 + 2;
+            p.style.width = size + 'px';
+            p.style.height = size + 'px';
+            p.style.left = Math.random() * 100 + '%';
+            p.style.top = Math.random() * 100 + '%';
+            p.style.animationDuration = (Math.random() * 20 + 10) + 's';
+            p.style.animationDelay = (Math.random() * 5) + 's';
+            particleContainer.appendChild(p);
+        }
+
+        // Scroll Reveal
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach((entry) => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('is-visible');
+                }
+            });
+        }, { threshold: 0.1 });
+        const hiddenElements = document.querySelectorAll('.reveal-on-scroll');
+        hiddenElements.forEach((el) => observer.observe(el));
+    </script>
+
+</body>
+</html>

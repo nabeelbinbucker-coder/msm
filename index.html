@@ -1,0 +1,495 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MSM.TIRURANGADI | The Renaissance Engine</title>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600;700;800;900&family=Teko:wght@300;400;600&family=Cormorant+Garamond:ital,wght@1,600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+    <style>
+        /* --- GLOBAL VARIABLES --- */
+        :root {
+            --bg-dark: #050505;
+            --bg-card: #0f0f0f;
+            --text-main: #f0f0f0;
+            
+            /* Department Colors */
+            --color-cre: #9D2B6B;      /* Magenta */
+            --color-pod: #8A2BE2;      /* Violet */
+            --color-write: #00bf63;    /* Green */
+            --color-legacy: #C2A37C;   /* Sepia */
+            --color-event: #00bf63;    /* Holo */
+            --color-blog: #ffffff;     /* White */
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        body { 
+            font-family: 'Montserrat', sans-serif; 
+            color: var(--text-main); 
+            background-color: var(--bg-dark); 
+            overflow-x: hidden; 
+        } 
+        a { text-decoration: none; color: inherit; transition: 0.3s; }
+
+        /* --- NAVIGATION --- */
+        .sticky-nav {
+            background-color: rgba(5, 5, 5, 0.9);
+            border-bottom: 1px solid #222;
+            width: 100%;
+            z-index: 1000;
+            position: fixed;
+            top: 0;
+            backdrop-filter: blur(10px);
+        }
+        .nav-inner {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 0 30px;
+            height: 70px;
+        }
+        
+        /* UPDATED LOGO: IMPACT FONT */
+        .nav-logo { 
+            font-family: 'Impact', sans-serif; 
+            font-size: 1.8rem; 
+            letter-spacing: 1px;
+            text-transform: uppercase;
+        }
+        .nav-logo span { color: var(--color-write); }
+        
+        .nav-links { display: flex; gap: 40px; }
+        .nav-links a { font-size: 0.8rem; font-weight: 600; text-transform: uppercase; color: #888; }
+        .nav-links a:hover { color: #fff; }
+
+        /* --- HERO: THE ENGINE --- */
+        .master-hero {
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            position: relative;
+            background: radial-gradient(circle at 50% 50%, #111 0%, #050505 70%);
+        }
+        .hero-grid-bg {
+            position: absolute; top: 0; left: 0; width: 100%; height: 100%;
+            background-image: linear-gradient(rgba(255, 255, 255, 0.03) 1px, transparent 1px),
+            linear-gradient(90deg, rgba(255, 255, 255, 0.03) 1px, transparent 1px);
+            background-size: 50px 50px;
+            mask-image: radial-gradient(circle, black 40%, transparent 80%);
+            z-index: 0;
+        }
+        .hero-label { color: var(--color-write); font-size: 0.9rem; letter-spacing: 4px; text-transform: uppercase; font-weight: 700; margin-bottom: 20px; z-index: 2; }
+        .hero-title { font-size: 6rem; font-weight: 900; line-height: 1; margin-bottom: 20px; z-index: 2; text-transform: uppercase; }
+        .scramble-text { display: inline-block; color: #fff; min-width: 300px; text-align: left; }
+        .hero-sub { font-size: 1.2rem; color: #888; max-width: 600px; line-height: 1.6; z-index: 2; margin-bottom: 40px; }
+        
+        .scroll-indicator {
+            position: absolute; bottom: 40px; font-size: 0.8rem; color: #444; text-transform: uppercase; letter-spacing: 2px;
+            animation: bounce 2s infinite; z-index: 5;
+        }
+        @keyframes bounce { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(10px); } }
+
+        /* --- SECTIONS: THE STRIPS --- */
+        .preview-section {
+            min-height: 80vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+            padding: 100px 5%;
+            border-top: 1px solid #111;
+            overflow: hidden;
+        }
+
+        .content-wrapper {
+            max-width: 1200px;
+            width: 100%;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 80px;
+            align-items: center;
+            z-index: 2;
+        }
+
+        .section-label { font-size: 3rem; font-family: 'Teko', sans-serif; text-transform: uppercase; line-height: 1; margin-bottom: 20px; }
+        .section-desc { font-size: 1.1rem; color: #888; margin-bottom: 30px; line-height: 1.6; }
+        .section-btn {
+            display: inline-block; padding: 15px 40px; border: 1px solid var(--theme-color);
+            color: var(--theme-color); text-transform: uppercase; letter-spacing: 1px; font-weight: 700;
+            transition: 0.3s;
+        }
+        .section-btn:hover { background: var(--theme-color); color: #000; }
+
+        /* CRE STRIP */
+        .cre-bg-glow { position: absolute; top: 0; left: 0; width: 100%; height: 100%; background: radial-gradient(circle at 80% 50%, rgba(157, 43, 107, 0.1) 0%, transparent 60%); }
+        .stats-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 30px; }
+        .stat-item h3 { font-size: 4rem; color: var(--color-cre); font-family: 'Teko', sans-serif; line-height: 1; }
+        .stat-item p { font-size: 0.9rem; color: #666; text-transform: uppercase; letter-spacing: 1px; }
+
+        /* PODCAST STRIP */
+        .pod-bg-glow { position: absolute; top: 0; left: 0; width: 100%; height: 100%; background: radial-gradient(circle at 20% 50%, rgba(138, 43, 226, 0.1) 0%, transparent 60%); }
+        .visualizer-preview { display: flex; align-items: flex-end; gap: 5px; height: 100px; }
+        .v-bar { width: 8px; background: var(--color-pod); animation: pulseBar 1s infinite ease-in-out; }
+        @keyframes pulseBar { 0%, 100% { height: 20%; opacity: 0.5; } 50% { height: 100%; opacity: 1; } }
+
+        /* WRITERS STRIP */
+        .writer-bg-glow { position: absolute; top: 0; left: 0; width: 100%; height: 100%; background: radial-gradient(circle at 50% 50%, rgba(0, 191, 99, 0.05) 0%, transparent 70%); }
+        .marquee-container { width: 100%; overflow: hidden; white-space: nowrap; position: absolute; bottom: 10%; opacity: 0.1; font-size: 8rem; font-weight: 900; font-family: 'Teko', sans-serif; color: var(--color-write); transform: rotate(-5deg); pointer-events: none; }
+        
+        /* LEGACY STRIP */
+        .legacy-bg-img { position: absolute; top: 0; left: 0; width: 100%; height: 100%; background-image: url('https://i.imgur.com/4y72KzZ.jpg'); background-size: cover; background-position: center; filter: grayscale(100%) brightness(0.2); transition: 0.5s; }
+        .legacy-section:hover .legacy-bg-img { filter: grayscale(50%) brightness(0.4) sepia(50%); }
+        .quote-box { border-left: 3px solid var(--color-legacy); padding-left: 30px; }
+        .legacy-quote { font-family: 'Cormorant Garamond', serif; font-size: 2rem; color: #ddd; font-style: italic; margin-bottom: 20px; }
+
+
+        /* --- THE PORTAL GRID (Menu) --- */
+        .portal-section { padding: 100px 5%; max-width: 1600px; margin: 0 auto; }
+        .portal-header { text-align: center; margin-bottom: 60px; }
+        .portal-header h2 { font-size: 3rem; text-transform: uppercase; font-family: 'Teko', sans-serif; }
+
+        .portal-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; }
+        
+        .portal-card {
+            background: var(--bg-card); border: 1px solid #222; border-radius: 12px; height: 250px;
+            padding: 30px; display: flex; flex-direction: column; justify-content: flex-end; position: relative;
+            transition: 0.3s; overflow: hidden;
+        }
+        
+        /* BACKGROUND ICON STYLE */
+        .portal-bg-icon {
+            position: absolute; top: -20px; right: -20px; font-size: 10rem;
+            color: #fff; opacity: 0.03; transition: 0.4s; transform: rotate(-10deg);
+        }
+
+        .portal-card::before {
+            content: ''; position: absolute; top: 0; left: 0; width: 100%; height: 100%;
+            background: radial-gradient(circle at top right, var(--theme-color), transparent 70%);
+            opacity: 0; transition: 0.3s;
+        }
+
+        .portal-card:hover { transform: translateY(-5px); border-color: var(--theme-color); }
+        .portal-card:hover::before { opacity: 0.15; }
+        .portal-card:hover .portal-bg-icon { transform: rotate(0deg) scale(1.1); opacity: 0.1; color: var(--theme-color); }
+        
+        .card-content { position: relative; z-index: 2; }
+        .card-badge { font-size: 0.7rem; text-transform: uppercase; letter-spacing: 1px; color: var(--theme-color); margin-bottom: 5px; font-weight: 700; }
+        .card-title { font-family: 'Teko', sans-serif; font-size: 2.5rem; line-height: 0.9; color: #fff; text-transform: uppercase; }
+        .card-arrow { position: absolute; top: 20px; right: 20px; color: #444; transition: 0.3s; }
+        .portal-card:hover .card-arrow { color: var(--theme-color); transform: rotate(-45deg); }
+
+        /* Theme vars for grid */
+        .theme-cre { --theme-color: var(--color-cre); }
+        .theme-pod { --theme-color: var(--color-pod); }
+        .theme-write { --theme-color: var(--color-write); }
+        .theme-legacy { --theme-color: var(--color-legacy); }
+        .theme-events { --theme-color: var(--color-event); }
+        .theme-blog { --theme-color: var(--color-blog); }
+
+        /* --- LEGENDARY FOOTER --- */
+        .legendary-footer {
+            background: #000;
+            border-top: 1px solid #222;
+            padding: 80px 5% 40px 5%;
+            margin-top: 50px;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+        .footer-logo {
+            font-family: 'Impact', sans-serif;
+            font-size: 4rem;
+            color: #222;
+            text-transform: uppercase;
+            margin-bottom: 20px;
+            letter-spacing: 2px;
+            transition: 0.5s;
+        }
+        .legendary-footer:hover .footer-logo { color: #fff; text-shadow: 0 0 20px rgba(255,255,255,0.2); }
+        
+        .footer-links { display: flex; justify-content: center; gap: 30px; margin-bottom: 40px; }
+        .footer-icon { 
+            width: 50px; height: 50px; border: 1px solid #333; border-radius: 50%; 
+            display: flex; align-items: center; justify-content: center; color: #888; transition: 0.3s; 
+        }
+        .footer-icon:hover { border-color: var(--color-write); color: var(--color-write); transform: scale(1.1); }
+
+        .system-status {
+            display: inline-block; padding: 5px 15px; border: 1px solid #222; border-radius: 20px;
+            font-size: 0.7rem; color: #666; text-transform: uppercase; letter-spacing: 1px;
+        }
+        .status-dot { display: inline-block; width: 8px; height: 8px; background: var(--color-write); border-radius: 50%; margin-right: 8px; box-shadow: 0 0 5px var(--color-write); }
+        
+        .copyright { margin-top: 30px; font-size: 0.7rem; color: #444; }
+
+        /* Reveal Animation Class */
+        .reveal { opacity: 0; transform: translateY(50px); transition: all 1s ease-out; }
+        .reveal.active { opacity: 1; transform: translateY(0); }
+
+        @media (max-width: 900px) {
+            .hero-title { font-size: 3rem; }
+            .content-wrapper { grid-template-columns: 1fr; gap: 40px; }
+            .stats-grid { order: -1; }
+            .visualizer-preview { order: -1; }
+            .portal-grid { grid-template-columns: 1fr; }
+            .footer-logo { font-size: 2.5rem; }
+        }
+    </style>
+</head>
+<body>
+
+    <nav class="sticky-nav">
+        <div class="nav-inner">
+            <div class="nav-logo">MSM<span>.</span>TIRURANGADI</div>
+            <div class="nav-links">
+                <a href="#directory">Directory</a>
+                <a href="about.html">About</a>
+                <a href="cre-donate.html" style="color: var(--color-cre);">Donate</a>
+            </div>
+        </div>
+    </nav>
+
+    <header class="master-hero">
+        <div class="hero-grid-bg"></div>
+        <div class="hero-label">The Renaissance Engine</div>
+        <h1 class="hero-title">
+            WE <span class="scramble-text" id="scramble">BUILD</span>
+        </h1>
+        <p class="hero-sub">
+            Bridging the gap between timeless values and modern innovation.
+        </p>
+        <div class="scroll-indicator">Scroll to Explore</div>
+    </header>
+
+    <section class="preview-section" style="--theme-color: var(--color-cre);">
+        <div class="cre-bg-glow"></div>
+        <div class="content-wrapper reveal">
+            <div class="text-side">
+                <div class="section-label" style="color: var(--color-cre);">The Syllabus</div>
+                <h2 style="font-size: 2.5rem; margin-bottom: 20px;">Continuing Religious Education</h2>
+                <p class="section-desc">
+                    A unified curriculum across the state. We are codifying knowledge to create a generation that is intellectually capable and spiritually grounded.
+                </p>
+                <a href="cre.html" class="section-btn">Enter Campus</a>
+            </div>
+            <div class="stats-grid">
+                <div class="stat-item">
+                    <h3 class="counter" data-target="77">0</h3>
+                    <p>Active Centers</p>
+                </div>
+                <div class="stat-item">
+                    <h3 class="counter" data-target="2000">0</h3>
+                    <p>Students</p>
+                </div>
+                <div class="stat-item">
+                    <h3 class="counter" data-target="150">0</h3>
+                    <p>Faculty</p>
+                </div>
+                <div class="stat-item">
+                    <h3>1</h3>
+                    <p>Vision</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="preview-section" style="--theme-color: var(--color-pod);">
+        <div class="pod-bg-glow"></div>
+        <div class="content-wrapper reveal">
+            <div class="visualizer-preview" id="miniVis">
+                </div>
+            <div class="text-side">
+                <div class="section-label" style="color: var(--color-pod);">The Signal</div>
+                <h2 style="font-size: 2.5rem; margin-bottom: 20px;">Voices of Reason</h2>
+                <p class="section-desc">
+                    Conversations that matter. From the philosophy of science to the history of Andalusia. Tune into the frequency of intellect.
+                </p>
+                <a href="podcast.html" class="section-btn">Start Listening</a>
+            </div>
+        </div>
+    </section>
+
+    <section class="preview-section legacy-section" style="--theme-color: var(--color-legacy);">
+        <div class="legacy-bg-img"></div>
+        <div class="content-wrapper reveal">
+            <div class="text-side">
+                <div class="section-label" style="color: var(--color-legacy);">The Roots</div>
+                <div class="quote-box">
+                    <p class="legacy-quote">
+                        "To know where we are going, we must understand where the seeds were sown."
+                    </p>
+                </div>
+                <p class="section-desc">
+                    Tracing the lineage of the Renaissance from the soil of Tirurangadi to the digital cloud.
+                </p>
+                <a href="about.html" class="section-btn">View Timeline</a>
+            </div>
+            <div></div> </div>
+    </section>
+
+    <section class="preview-section" style="--theme-color: var(--color-write); overflow: hidden;">
+        <div class="writer-bg-glow"></div>
+        <div class="marquee-container">
+            SQUARE PEGS • MISFITS • STORYTELLERS • POETS • SQUARE PEGS •
+        </div>
+        <div class="content-wrapper reveal" style="text-align: center; display: block;">
+            <div class="section-label" style="color: var(--color-write);">The Collective</div>
+            <h2 style="font-size: 2.5rem; margin-bottom: 20px;">We Are The Square Pegs</h2>
+            <p class="section-desc" style="max-width: 600px; margin: 0 auto 30px auto;">
+                A sanctuary for those who write, think, and create outside the lines. Join the writers' community.
+            </p>
+            <a href="writers.html" class="section-btn">Join Us</a>
+        </div>
+    </section>
+
+    <section class="portal-section" id="directory">
+        <div class="portal-header reveal">
+            <h2>System Directory</h2>
+            <p style="color: #666;">Access all departments</p>
+        </div>
+        <div class="portal-grid reveal">
+            
+            <a href="cre.html" class="portal-card theme-cre">
+                <i class="fas fa-university portal-bg-icon"></i>
+                <div class="card-arrow"><i class="fas fa-arrow-right"></i></div>
+                <div class="card-content">
+                    <span class="card-badge">Education</span>
+                    <h3 class="card-title">C.R.E.</h3>
+                </div>
+            </a>
+            
+            <a href="podcast.html" class="portal-card theme-pod">
+                <i class="fas fa-microphone-alt portal-bg-icon"></i>
+                <div class="card-arrow"><i class="fas fa-arrow-right"></i></div>
+                <div class="card-content">
+                    <span class="card-badge">Media</span>
+                    <h3 class="card-title">Podcast</h3>
+                </div>
+            </a>
+            
+            <a href="writers.html" class="portal-card theme-write">
+                <i class="fas fa-pen-nib portal-bg-icon"></i>
+                <div class="card-arrow"><i class="fas fa-arrow-right"></i></div>
+                <div class="card-content">
+                    <span class="card-badge">Community</span>
+                    <h3 class="card-title">Writers</h3>
+                </div>
+            </a>
+            
+            <a href="fiction.html" class="portal-card theme-legacy">
+                <i class="fas fa-book-open portal-bg-icon"></i>
+                <div class="card-arrow"><i class="fas fa-arrow-right"></i></div>
+                <div class="card-content">
+                    <span class="card-badge">Creative</span>
+                    <h3 class="card-title">Lore</h3>
+                </div>
+            </a>
+            
+            <a href="events.html" class="portal-card theme-events">
+                <i class="fas fa-calendar-alt portal-bg-icon"></i>
+                <div class="card-arrow"><i class="fas fa-arrow-right"></i></div>
+                <div class="card-content">
+                    <span class="card-badge">Live</span>
+                    <h3 class="card-title">Events</h3>
+                </div>
+            </a>
+            
+            <a href="blog.html" class="portal-card theme-blog">
+                <i class="fas fa-newspaper portal-bg-icon"></i>
+                <div class="card-arrow"><i class="fas fa-arrow-right"></i></div>
+                <div class="card-content">
+                    <span class="card-badge">News</span>
+                    <h3 class="card-title">Journal</h3>
+                </div>
+            </a>
+
+        </div>
+    </section>
+
+    <footer class="legendary-footer">
+        <div class="footer-logo">MSM.TIRURANGADI</div>
+        <div class="footer-links">
+            <a href="#" class="footer-icon"><i class="fab fa-instagram"></i></a>
+            <a href="#" class="footer-icon"><i class="fab fa-twitter"></i></a>
+            <a href="#" class="footer-icon"><i class="fab fa-youtube"></i></a>
+            <a href="#" class="footer-icon"><i class="fas fa-envelope"></i></a>
+        </div>
+        
+        <div class="system-status">
+            <span class="status-dot"></span> All Systems Operational
+        </div>
+
+        <div class="copyright">
+            &copy; 2023 MSM.Tirurangadi. Est 1960s. Forging the Future.
+        </div>
+    </footer>
+
+    <script>
+        // 1. Scramble Text
+        const textElement = document.getElementById('scramble');
+        const words = ["BUILD", "TEACH", "CREATE", "INSPIRE", "UNITE"];
+        let wordIndex = 0;
+        function scramble(newWord) {
+            let currentWord = textElement.innerText;
+            let length = Math.max(currentWord.length, newWord.length);
+            let counter = 0;
+            const chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
+            const interval = setInterval(() => {
+                let tempWord = "";
+                for (let i = 0; i < length; i++) {
+                    if (i < counter) tempWord += newWord[i] || "";
+                    else tempWord += chars[Math.floor(Math.random() * chars.length)];
+                }
+                textElement.innerText = tempWord;
+                counter += 1/2;
+                if (counter > length) { clearInterval(interval); textElement.innerText = newWord; }
+            }, 50);
+        }
+        setInterval(() => { wordIndex = (wordIndex + 1) % words.length; scramble(words[wordIndex]); }, 3000);
+
+        // 2. Mini Visualizer
+        const miniVis = document.getElementById('miniVis');
+        for(let i=0; i<20; i++){
+            let b = document.createElement('div');
+            b.classList.add('v-bar');
+            b.style.height = (Math.random()*80 + 20) + '%';
+            b.style.animationDelay = Math.random() + 's';
+            miniVis.appendChild(b);
+        }
+
+        // 3. Scroll Reveal & Counters
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if(entry.isIntersecting) {
+                    entry.target.classList.add('active');
+                    const counters = entry.target.querySelectorAll('.counter');
+                    counters.forEach(counter => {
+                        const target = +counter.getAttribute('data-target');
+                        const speed = 200; 
+                        const updateCount = () => {
+                            const count = +counter.innerText;
+                            const inc = target / speed;
+                            if(count < target) {
+                                counter.innerText = Math.ceil(count + inc);
+                                setTimeout(updateCount, 10);
+                            } else {
+                                counter.innerText = target + (target > 100 ? '+' : '');
+                            }
+                        };
+                        updateCount();
+                    });
+                }
+            });
+        }, { threshold: 0.2 });
+
+        document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+    </script>
+</body>
+</html>

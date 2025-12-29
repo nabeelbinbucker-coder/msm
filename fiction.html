@@ -1,0 +1,450 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>The Fiction Realm | Where Reality Ends</title>
+    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;700&family=Cormorant+Garamond:ital,wght@0,400;0,600;1,400&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+    <style>
+        /* --- 1. THE VOID (Global Setup) --- */
+        * { margin: 0; padding: 0; box-sizing: border-box; cursor: none; /* Hide default cursor */ }
+        
+        :root {
+            --void-bg: #050508;
+            --ink-black: #000;
+            --starlight: #e0e0e0;
+            --gold-accent: #d4af37;
+            --magic-glow: rgba(212, 175, 55, 0.2);
+        }
+
+        body {
+            background-color: var(--void-bg);
+            color: var(--starlight);
+            font-family: 'Cormorant Garamond', serif;
+            overflow-x: hidden;
+            opacity: 0; /* Fade in on load */
+            animation: fadeInPage 2s forwards ease-in-out;
+        }
+
+        @keyframes fadeInPage { to { opacity: 1; } }
+
+        /* --- 2. THE LANTERN (Custom Cursor) --- */
+        .cursor-lantern {
+            position: fixed;
+            width: 300px;
+            height: 300px;
+            background: radial-gradient(circle, rgba(255,255,255,0.08) 0%, rgba(255,255,255,0) 70%);
+            transform: translate(-50%, -50%);
+            pointer-events: none;
+            z-index: 9999;
+            border-radius: 50%;
+            mix-blend-mode: screen;
+            transition: width 0.3s, height 0.3s;
+        }
+        
+        .cursor-dot {
+            position: fixed;
+            width: 8px;
+            height: 8px;
+            background-color: var(--gold-accent);
+            border-radius: 50%;
+            pointer-events: none;
+            z-index: 10000;
+            transform: translate(-50%, -50%);
+            box-shadow: 0 0 15px var(--gold-accent);
+        }
+
+        /* --- 3. BACKGROUND CANVAS (Starfield of Letters) --- */
+        #story-canvas {
+            position: fixed;
+            top: 0; left: 0;
+            width: 100%; height: 100%;
+            z-index: -1;
+            opacity: 0.6;
+        }
+
+        /* --- 4. NAVIGATION (Minimalist) --- */
+        .portal-nav {
+            position: fixed;
+            top: 30px; left: 50%;
+            transform: translateX(-50%);
+            z-index: 100;
+            display: flex;
+            gap: 40px;
+            mix-blend-mode: difference;
+        }
+        .portal-link {
+            font-family: 'Cinzel', serif;
+            color: #fff;
+            text-decoration: none;
+            font-size: 0.9rem;
+            letter-spacing: 2px;
+            opacity: 0.7;
+            transition: 0.5s;
+        }
+        .portal-link:hover { opacity: 1; text-shadow: 0 0 10px #fff; letter-spacing: 4px; }
+        .back-btn { position: absolute; left: -200px; color: var(--gold-accent); }
+
+        /* --- 5. SECTIONS --- */
+        
+        /* HERO */
+        .realm-hero {
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            position: relative;
+        }
+
+        .realm-title {
+            font-family: 'Cinzel', serif;
+            font-size: 8vw;
+            color: transparent;
+            -webkit-text-stroke: 1px rgba(255,255,255,0.3);
+            position: relative;
+            z-index: 2;
+            transition: 1s;
+        }
+        
+        .realm-title span {
+            display: inline-block;
+            transition: all 0.8s cubic-bezier(0.165, 0.84, 0.44, 1);
+        }
+        
+        /* Hover effect on title letters */
+        .realm-title:hover span {
+            color: #fff;
+            text-shadow: 0 0 30px rgba(255,255,255,0.8);
+            transform: translateY(-20px) scale(1.1);
+        }
+
+        .realm-sub {
+            font-size: 1.5rem;
+            margin-top: 20px;
+            font-style: italic;
+            opacity: 0;
+            animation: floatUp 2s 1s forwards;
+            color: var(--gold-accent);
+        }
+
+        /* THE SCROLL OF STORIES */
+        .story-stream {
+            padding: 100px 5vw;
+            position: relative;
+        }
+
+        /* Unique Story Portal Container */
+        .story-portal {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 200px; /* Huge spacing for isolation */
+            opacity: 0;
+            transform: scale(0.9) translateY(50px);
+            transition: all 1s cubic-bezier(0.23, 1, 0.32, 1);
+            position: relative;
+        }
+
+        .story-portal.visible {
+            opacity: 1;
+            transform: scale(1) translateY(0);
+        }
+
+        /* Alternating Layout */
+        .story-portal:nth-child(even) { flex-direction: row-reverse; }
+
+        /* The Image/Window */
+        .portal-window {
+            width: 40vw;
+            height: 60vh;
+            position: relative;
+            overflow: hidden;
+            border: 1px solid rgba(255,255,255,0.1);
+        }
+        
+        .portal-img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            filter: sepia(50%) brightness(0.6) contrast(1.2);
+            transition: transform 1.5s ease;
+        }
+        
+        /* Text Content */
+        .portal-text {
+            width: 30vw;
+            padding: 40px;
+            position: relative;
+            z-index: 5;
+        }
+        
+        .portal-genre {
+            font-family: 'Cinzel', serif;
+            color: var(--gold-accent);
+            font-size: 0.9rem;
+            letter-spacing: 3px;
+            margin-bottom: 15px;
+            display: block;
+        }
+        
+        .portal-title {
+            font-size: 4rem;
+            line-height: 1;
+            margin-bottom: 20px;
+            font-weight: 400;
+            background: linear-gradient(45deg, #fff, #888);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+        
+        .portal-excerpt {
+            font-size: 1.2rem;
+            line-height: 1.6;
+            color: #aaa;
+            margin-bottom: 30px;
+        }
+
+        .read-btn {
+            display: inline-block;
+            border: 1px solid var(--gold-accent);
+            color: var(--gold-accent);
+            padding: 15px 40px;
+            font-family: 'Cinzel', serif;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            text-decoration: none;
+            transition: 0.4s;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .read-btn::before {
+            content: '';
+            position: absolute;
+            top: 0; left: 0; width: 0%; height: 100%;
+            background: var(--gold-accent);
+            z-index: -1;
+            transition: 0.4s;
+        }
+        
+        .read-btn:hover { color: #000; }
+        .read-btn:hover::before { width: 100%; }
+
+        /* Hover Interaction */
+        .story-portal:hover .portal-img {
+            transform: scale(1.1) rotate(2deg);
+            filter: sepia(0%) brightness(1);
+        }
+
+        /* --- 6. INTERACTIVE POEM SECTION --- */
+        .poem-section {
+            min-height: 80vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            position: relative;
+        }
+        
+        .poem-line {
+            font-size: 2.5rem;
+            margin: 20px 0;
+            opacity: 0.2;
+            transition: 0.5s;
+            filter: blur(4px);
+        }
+        
+        .poem-line:hover {
+            opacity: 1;
+            filter: blur(0px);
+            color: var(--gold-accent);
+            transform: scale(1.05);
+        }
+
+        /* --- 7. FOOTER (The Void) --- */
+        .void-footer {
+            height: 50vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: flex-end;
+            align-items: center;
+            padding-bottom: 50px;
+            background: linear-gradient(to top, #000 0%, transparent 100%);
+        }
+        
+        .community-link {
+            font-size: 5rem;
+            font-family: 'Cinzel', serif;
+            color: #333;
+            text-decoration: none;
+            transition: 0.5s;
+        }
+        .community-link:hover { color: #fff; text-shadow: 0 0 30px #fff; }
+
+        /* Keyframes */
+        @keyframes floatUp { from { opacity:0; transform:translateY(20px); } to { opacity:1; transform:translateY(0); } }
+
+    </style>
+</head>
+<body>
+
+    <div class="cursor-lantern"></div>
+    <div class="cursor-dot"></div>
+
+    <canvas id="story-canvas"></canvas>
+
+    <nav class="portal-nav">
+        <a href="blog.html" class="portal-link back-btn">← Reality</a>
+        <a href="#" class="portal-link">Novels</a>
+        <a href="#" class="portal-link">Shorts</a>
+        <a href="#" class="portal-link">Poetry</a>
+        <a href="#" class="portal-link">Lore</a>
+    </nav>
+
+    <section class="realm-hero">
+        <h1 class="realm-title">
+            <span>T</span><span>H</span><span>E</span> &nbsp; <span>F</span><span>I</span><span>C</span><span>T</span><span>I</span><span>O</span><span>N</span>
+        </h1>
+        <p class="realm-sub">"Words are the only magic that truly exists."</p>
+    </section>
+
+    <section class="story-stream">
+        
+        <div class="story-portal">
+            <div class="portal-window">
+                <img src="https://images.unsplash.com/photo-1518709268805-4e9042af9f23?q=80&w=1968&auto=format&fit=crop" class="portal-img" alt="Fantasy">
+            </div>
+            <div class="portal-text">
+                <span class="portal-genre">High Fantasy</span>
+                <h2 class="portal-title">The Crown of Cinders</h2>
+                <p class="portal-excerpt">In a kingdom where fire is currency, a young thief steals a flame that refuses to burn. A saga of betrayal, ash, and the price of warmth.</p>
+                <a href="#" class="read-btn">Enter World</a>
+            </div>
+        </div>
+
+        <div class="story-portal">
+            <div class="portal-window">
+                <img src="https://images.unsplash.com/photo-1451187580459-43490279c0fa?q=80&w=2072&auto=format&fit=crop" class="portal-img" alt="Sci-Fi">
+            </div>
+            <div class="portal-text">
+                <span class="portal-genre">Hard Sci-Fi</span>
+                <h2 class="portal-title">Echoes of Silica</h2>
+                <p class="portal-excerpt">The ship wasn't empty. It was full of memories that didn't belong to the crew. An exploration of consciousness in the deep vacuum of space.</p>
+                <a href="#" class="read-btn">Decipher Log</a>
+            </div>
+        </div>
+
+        <div class="story-portal">
+            <div class="portal-window">
+                <img src="https://images.unsplash.com/photo-1485846234645-a62644f84728?q=80&w=2059&auto=format&fit=crop" class="portal-img" alt="Noir">
+            </div>
+            <div class="portal-text">
+                <span class="portal-genre">Neon Noir</span>
+                <h2 class="portal-title">Velvet Rain</h2>
+                <p class="portal-excerpt">It always rains in Sector 4. The detective knew the case was cold, but the hologram in his pocket was still warm to the touch.</p>
+                <a href="#" class="read-btn">Start Investigation</a>
+            </div>
+        </div>
+
+    </section>
+
+    <section class="poem-section">
+        <div class="poem-container">
+            <div class="poem-line">We write to taste life twice,</div>
+            <div class="poem-line">in the moment and in retrospect.</div>
+            <div class="poem-line">Ink is the blood of the dreamer,</div>
+            <div class="poem-line">and paper is the skin of the world.</div>
+        </div>
+    </section>
+
+    <footer class="void-footer">
+        <p style="color: #666; margin-bottom: 20px; font-family: 'Cinzel', serif;">Do you have a world inside you?</p>
+        <a href="#" class="community-link">Write With Us</a>
+    </footer>
+
+    <script>
+        // 1. CUSTOM CURSOR LOGIC
+        const cursorLantern = document.querySelector('.cursor-lantern');
+        const cursorDot = document.querySelector('.cursor-dot');
+
+        document.addEventListener('mousemove', (e) => {
+            cursorLantern.style.left = e.clientX + 'px';
+            cursorLantern.style.top = e.clientY + 'px';
+            cursorDot.style.left = e.clientX + 'px';
+            cursorDot.style.top = e.clientY + 'px';
+        });
+
+        // 2. CANVAS BACKGROUND (Floating Letters)
+        const canvas = document.getElementById('story-canvas');
+        const ctx = canvas.getContext('2d');
+        canvas.width = window.innerWidth;
+        canvas.height = window.innerHeight;
+
+        const characters = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789?,.!&";
+        const particles = [];
+
+        class Particle {
+            constructor() {
+                this.x = Math.random() * canvas.width;
+                this.y = Math.random() * canvas.height;
+                this.size = Math.random() * 15 + 8;
+                this.speedX = Math.random() * 1 - 0.5;
+                this.speedY = Math.random() * 1 - 0.5;
+                this.char = characters.charAt(Math.floor(Math.random() * characters.length));
+                this.opacity = Math.random() * 0.5;
+            }
+            update() {
+                this.x += this.speedX;
+                this.y += this.speedY;
+                if (this.x > canvas.width) this.x = 0;
+                if (this.x < 0) this.x = canvas.width;
+                if (this.y > canvas.height) this.y = 0;
+                if (this.y < 0) this.y = canvas.height;
+            }
+            draw() {
+                ctx.fillStyle = `rgba(255, 255, 255, ${this.opacity})`;
+                ctx.font = `${this.size}px 'Cormorant Garamond'`;
+                ctx.fillText(this.char, this.x, this.y);
+            }
+        }
+
+        function initParticles() {
+            for (let i = 0; i < 50; i++) {
+                particles.push(new Particle());
+            }
+        }
+
+        function animateParticles() {
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            for (let i = 0; i < particles.length; i++) {
+                particles[i].update();
+                particles[i].draw();
+            }
+            requestAnimationFrame(animateParticles);
+        }
+
+        initParticles();
+        animateParticles();
+
+        // 3. SCROLL ANIMATION (Reveal Portals)
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if(entry.isIntersecting) {
+                    entry.target.classList.add('visible');
+                }
+            });
+        }, { threshold: 0.2 });
+
+        document.querySelectorAll('.story-portal').forEach(portal => {
+            observer.observe(portal);
+        });
+
+        // 4. TITLE SPAN WRAPPER (For hover effect)
+        // (Already structured in HTML, but ensuring animation smoothness)
+    </script>
+</body>
+</html>

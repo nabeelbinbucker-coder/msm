@@ -1,0 +1,427 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CRE - Continuing Religious Education</title>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+    <style>
+        /* --- GLOBAL VARIABLES & RESET --- */
+        :root {
+            /* BRAND COLORS */
+            --cre-magenta: #9D2B6B; 
+            --cre-teal: #1F8A70;
+            --cre-black: #000000;
+            --cre-dark: #0a0a0a;
+            --cre-text: #f0f0f0;
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        
+        body { 
+            font-family: 'Montserrat', sans-serif; 
+            color: var(--cre-text); 
+            background-color: var(--cre-dark); 
+            overflow-x: hidden; 
+        } 
+        a { text-decoration: none; color: inherit; transition: 0.3s; }
+        ul { list-style: none; }
+
+        /* --- NAVIGATION --- */
+        .sticky-nav {
+            background-color: rgba(10, 10, 10, 0.9);
+            border-bottom: 1px solid #222;
+            width: 100%;
+            z-index: 1000;
+            position: -webkit-sticky;
+            position: sticky;
+            top: 0;
+            backdrop-filter: blur(10px);
+        }
+        .nav-inner {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+            height: 60px;
+        }
+        .nav-logo img { height: 35px; width: auto; }
+        .nav-links { display: flex; gap: 0; height: 100%; align-items: center; }
+        .nav-links > li { height: 100%; display: flex; align-items: center; padding: 0 20px; }
+        .nav-links > li > a { text-transform: uppercase; font-size: 0.8rem; font-weight: 700; color: #fff; }
+        .nav-links > li:hover { background-color: var(--cre-teal); }
+
+        /* --- HERO SECTION --- */
+        .cre-hero {
+            position: relative;
+            height: 90vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            overflow: hidden;
+            padding: 0 20px;
+        }
+
+        /* Ambient Background Orbs */
+        .orb {
+            position: absolute;
+            border-radius: 50%;
+            filter: blur(80px);
+            opacity: 0.4;
+            animation: floatOrb 10s infinite ease-in-out;
+            z-index: 1;
+        }
+        .orb-1 { width: 300px; height: 300px; background: var(--cre-magenta); top: 10%; left: 10%; }
+        .orb-2 { width: 400px; height: 400px; background: var(--cre-teal); bottom: 10%; right: 10%; animation-delay: -5s; }
+        
+        @keyframes floatOrb {
+            0%, 100% { transform: translate(0, 0); }
+            50% { transform: translate(30px, -30px); }
+        }
+
+        .hero-content { position: relative; z-index: 2; max-width: 900px; }
+
+        .hero-headline {
+            font-size: 8rem;
+            font-weight: 900;
+            line-height: 0.9;
+            letter-spacing: -2px;
+            margin-bottom: 20px;
+            text-transform: uppercase;
+        }
+
+        /* COLORS */
+        .cre-c { color: var(--cre-magenta); }
+        .cre-r { color: var(--cre-teal); }
+        .cre-e { color: #fff; text-shadow: 0 0 20px rgba(255,255,255,0.3); }
+        
+        /* UPDATED: Normal Type for 'ATE' */
+        .cre-suffix-normal { 
+            color: #fff; /* Solid White */
+        }
+
+        .hero-sub {
+            font-size: 1.2rem;
+            letter-spacing: 3px;
+            text-transform: uppercase;
+            color: #ccc;
+            margin-bottom: 40px;
+            font-weight: 500;
+        }
+        .hero-sub span { color: var(--cre-teal); font-weight: 700; }
+
+        /* --- STATS STRIP --- */
+        .stats-strip {
+            display: flex;
+            justify-content: center;
+            gap: 50px;
+            padding: 40px 0;
+            background: rgba(255,255,255,0.02);
+            border-top: 1px solid #222;
+            border-bottom: 1px solid #222;
+            flex-wrap: wrap;
+        }
+        .stat-item { text-align: center; }
+        .stat-number { font-size: 2.5rem; font-weight: 800; display: block; line-height: 1; }
+        .stat-label { font-size: 0.8rem; text-transform: uppercase; color: #888; letter-spacing: 1px; margin-top: 5px; }
+        
+        .c-magenta { color: var(--cre-magenta); }
+        .c-teal { color: var(--cre-teal); }
+        .c-white { color: #fff; }
+
+        /* --- SYLLABUS HIGHLIGHTS --- */
+        .syllabus-section {
+            background-color: #050505;
+            padding: 80px 10%;
+            border-top: 1px solid #222;
+        }
+        .syllabus-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 50px;
+            align-items: center;
+        }
+        .syllabus-text h3 { font-size: 2rem; margin-bottom: 20px; }
+        .syllabus-text p { color: #888; line-height: 1.8; margin-bottom: 20px; }
+        .check-list li { margin-bottom: 10px; display: flex; align-items: center; color: #ccc; }
+        .check-list li i { color: var(--cre-teal); margin-right: 15px; }
+
+        .syllabus-visual {
+            height: 400px;
+            background: linear-gradient(135deg, #111, #0a0a0a);
+            border: 1px solid #222;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            position: relative;
+        }
+        .book-shape {
+            width: 200px; height: 280px;
+            border: 2px solid var(--cre-magenta);
+            transform: rotate(-10deg);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-family: 'Impact', sans-serif;
+            font-size: 3rem;
+            color: #222;
+            background: rgba(157, 43, 107, 0.1);
+        }
+
+        /* --- PATHWAYS GRID --- */
+        .pathways-section { padding: 80px 10%; }
+        .section-header { margin-bottom: 50px; text-align: center; }
+        .section-title { font-size: 2rem; font-weight: 700; text-transform: uppercase; letter-spacing: 2px; }
+
+        .pathways-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 30px;
+        }
+
+        .path-card {
+            background: #111;
+            border: 1px solid #222;
+            padding: 40px 30px;
+            position: relative;
+            overflow: hidden;
+            transition: 0.4s;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            min-height: 400px;
+        }
+
+        .path-icon { font-size: 3rem; margin-bottom: 20px; transition: 0.3s; }
+        .path-title { font-size: 2rem; font-weight: 800; text-transform: uppercase; margin-bottom: 15px; line-height: 1; }
+        .path-desc { font-size: 0.9rem; color: #888; line-height: 1.6; margin-bottom: 30px; }
+        .path-btn { margin-top: auto; padding: 15px 0; text-align: center; font-weight: 700; text-transform: uppercase; border: 1px solid #333; color: #fff; transition: 0.3s; cursor: pointer; }
+
+        /* Card Themes */
+        .card-student:hover { border-color: var(--cre-teal); transform: translateY(-10px); }
+        .card-student .path-icon { color: var(--cre-teal); }
+        .card-student:hover .path-btn { background-color: var(--cre-teal); color: #000; border-color: var(--cre-teal); }
+
+        .card-faculty:hover { border-color: var(--cre-magenta); transform: translateY(-10px); }
+        .card-faculty .path-icon { color: var(--cre-magenta); }
+        .card-faculty:hover .path-btn { background-color: var(--cre-magenta); color: #fff; border-color: var(--cre-magenta); }
+
+        .card-donor:hover { border-color: #fff; transform: translateY(-10px); }
+        .card-donor .path-icon { color: #fff; }
+        .card-donor:hover .path-btn { background-color: #fff; color: #000; border-color: #fff; }
+
+        /* Card Glow */
+        .card-glow { position: absolute; top: -50px; right: -50px; width: 150px; height: 150px; filter: blur(60px); opacity: 0.1; border-radius: 50%; transition: 0.4s; }
+        .card-student .card-glow { background: var(--cre-teal); }
+        .card-faculty .card-glow { background: var(--cre-magenta); }
+        .card-student:hover .card-glow, .card-faculty:hover .card-glow { opacity: 0.3; }
+
+        /* --- FOOTER (WITH CURSOR EFFECT) --- */
+        .main-footer {
+            background-color: #000; 
+            color: #fff; 
+            padding: 80px 10% 20px 10%;
+            border-top: 1px solid #222; 
+            text-align: center;
+            position: relative; /* Necessary for absolute positioning inside */
+            overflow: hidden;   /* Keeps glow inside footer */
+        }
+        
+        /* The Glow Spotlight */
+        .footer-glow-cursor {
+            position: absolute;
+            width: 400px;
+            height: 400px;
+            background: radial-gradient(circle, rgba(157, 43, 107, 0.15) 0%, transparent 70%); /* Soft Magenta Glow */
+            border-radius: 50%;
+            pointer-events: none; /* Allows clicking through it */
+            transform: translate(-50%, -50%);
+            z-index: 0;
+            opacity: 0; /* Hidden until hover */
+            transition: opacity 0.3s ease;
+        }
+
+        /* Elements need z-index to sit on top of the glow */
+        .footer-content, .copyright-bar {
+            position: relative;
+            z-index: 2;
+        }
+        
+        /* Show glow on hover */
+        .main-footer:hover .footer-glow-cursor { opacity: 1; }
+
+        .footer-newsletter { display: flex; max-width: 500px; margin: 0 auto 30px auto; }
+        .footer-newsletter input { flex: 1; padding: 15px; background: #111; border: 1px solid #333; color: #fff; outline: none; }
+        .footer-newsletter button { padding: 15px; background: #333; color: #fff; border: 1px solid #333; cursor: pointer; transition: 0.3s; }
+        .footer-newsletter button:hover { background: var(--cre-magenta); border-color: var(--cre-magenta); }
+        
+        .copyright-bar { border-top: 1px solid #222; padding-top: 20px; margin-top: 50px; font-size: 0.7rem; color: #444; display: flex; justify-content: space-between; }
+
+        /* --- ANIMATION --- */
+        .reveal-on-scroll { opacity: 0; filter: blur(10px); transform: translateY(30px); transition: all 1s ease-out; }
+        .reveal-on-scroll.is-visible { opacity: 1; filter: blur(0); transform: translateY(0); }
+
+        @media (max-width: 768px) {
+            .hero-headline { font-size: 4.5rem; }
+            .syllabus-grid { grid-template-columns: 1fr; }
+            .stats-strip { gap: 20px; }
+            .stat-item { width: 45%; }
+        }
+    </style>
+</head>
+<body>
+
+    <nav class="sticky-nav">
+        <div class="nav-inner">
+            <a href="index.html" class="nav-logo">
+                <img src="msm logoo.png" alt="MSM Logo">
+            </a>
+            <ul class="nav-links">
+                <li><a href="index.html">Home</a></li>
+                <li><a href="#">CRE Centers</a></li>
+                <li><a href="#">Syllabus</a></li>
+                <li><a href="#">Login</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <section class="cre-hero">
+        <div class="orb orb-1"></div>
+        <div class="orb orb-2"></div>
+
+        <div class="hero-content reveal-on-scroll">
+            <h1 class="hero-headline">
+                <span class="cre-c">C</span><span class="cre-r">R</span><span class="cre-e">E</span><span class="cre-suffix-normal">ATE</span>
+            </h1>
+            <p class="hero-sub">Continuing <span>Religious</span> Education</p>
+            <p style="color: #888; max-width: 600px; margin: 0 auto; line-height: 1.6;">
+                A systematic, syllabus-driven journey for the modern youth. 
+                Shaping minds, building character, and creating the future.
+            </p>
+        </div>
+    </section>
+
+    <div class="stats-strip reveal-on-scroll">
+        <div class="stat-item">
+            <span class="stat-number c-magenta">7</span>
+            <span class="stat-label">Active Centers</span>
+        </div>
+        <div class="stat-item">
+            <span class="stat-number c-white">01</span>
+            <span class="stat-label">Unified Syllabus</span>
+        </div>
+        <div class="stat-item">
+            <span class="stat-number c-teal">18+</span>
+            <span class="stat-label">Age Group</span>
+        </div>
+    </div>
+
+    <section class="syllabus-section">
+        <div class="syllabus-grid">
+            <div class="syllabus-text reveal-on-scroll">
+                <h3 style="color: #fff;">Systematic Learning. <br> <span style="color: var(--cre-teal);">Tangible Growth.</span></h3>
+                <p>CRE is not just a weekend class; it is a structured academic approach to religious education designed specifically for late teens. We bridge the gap between traditional knowledge and modern application.</p>
+                <ul class="check-list">
+                    <li><i class="fas fa-check-circle"></i> Standardized curriculum across 7 centers.</li>
+                    <li><i class="fas fa-check-circle"></i> Expert faculty and mentorship.</li>
+                    <li><i class="fas fa-check-circle"></i> Certification and assessment.</li>
+                    <li><i class="fas fa-check-circle"></i> Community engagement projects.</li>
+                </ul>
+            </div>
+            <div class="syllabus-visual reveal-on-scroll">
+                <div class="book-shape">CRE</div>
+            </div>
+        </div>
+    </section>
+
+    <section class="pathways-section">
+        <div class="section-header reveal-on-scroll">
+            <h2 class="section-title">Get <span style="color: var(--cre-magenta);">Involved</span></h2>
+        </div>
+
+        <div class="pathways-grid">
+            
+            <div class="path-card card-student reveal-on-scroll">
+    <div class="card-glow"></div>
+    <i class="fas fa-user-graduate path-icon"></i>
+    <h3 class="path-title">Join as <br>Student</h3>
+    <p class="path-desc">Enroll in the nearest center. Elevate your understanding and join a network of like-minded youth.</p>
+    
+    <a href="student program.html" class="path-btn">Register Now</a>
+</div>
+
+            <div class="path-card card-faculty reveal-on-scroll">
+                <div class="card-glow"></div>
+                <i class="fas fa-chalkboard-teacher path-icon"></i>
+                <h3 class="path-title">Join <br>Faculty</h3>
+                <p class="path-desc">Share your knowledge. We are looking for qualified mentors to guide the next generation.</p>
+                <a href="faculty program.html" class="path-btn">Join Faculty</a>
+            </div>
+
+            <div class="path-card card-donor reveal-on-scroll">
+                <div class="card-glow"></div>
+                <i class="fas fa-hand-holding-heart path-icon"></i>
+                <h3 class="path-title">Support <br>The Cause</h3>
+                <p class="path-desc">Help us make CRE more effective. Your contribution funds resources, technology, and expansion.</p>
+                <a href="donation cre.html" class="path-btn">Donate</a>
+            </div>
+
+        </div>
+    </section>
+
+    <footer class="main-footer reveal-on-scroll">
+        <div class="footer-glow-cursor"></div>
+
+        <div class="footer-content">
+            <h2 style="margin-bottom: 20px; font-weight: 800; text-transform: uppercase;">Build the Future.</h2>
+            <p style="color: #888; margin-bottom: 40px;">Subscribe for syllabus updates and center news.</p>
+            
+            <form class="footer-newsletter">
+                <input type="email" placeholder="Your email...">
+                <button type="submit">Subscribe</button>
+            </form>
+        </div>
+
+        <div class="copyright-bar">
+            <span>&copy; 2023 CRE Department. MSM Studios.</span>
+            <span>All Rights Reserved.</span>
+        </div>
+    </footer>
+
+    <script>
+        // 1. Reveal Animation
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach((entry) => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('is-visible');
+                } else {
+                    entry.target.classList.remove('is-visible');
+                }
+            });
+        }, { threshold: 0.1 });
+        const hiddenElements = document.querySelectorAll('.reveal-on-scroll');
+        hiddenElements.forEach((el) => observer.observe(el));
+
+        // 2. Footer Cursor Spotlight Script
+        const footer = document.querySelector('.main-footer');
+        const glow = document.querySelector('.footer-glow-cursor');
+
+        footer.addEventListener('mousemove', (e) => {
+            // Get footer dimensions to calculate relative position
+            const rect = footer.getBoundingClientRect();
+            const x = e.clientX - rect.left;
+            const y = e.clientY - rect.top;
+
+            // Move the glow to the mouse position
+            glow.style.left = `${x}px`;
+            glow.style.top = `${y}px`;
+        });
+    </script>
+</body>
+</html>

@@ -1,0 +1,316 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>About MSM | The Legacy of Renaissance</title>
+    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;0,700;1,400&family=Montserrat:wght@300;400;500;600;700&family=Amiri:wght@700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+    <style>
+        /* --- GLOBAL VARIABLES --- */
+        :root {
+            --bg-dark: #0a0a0a;
+            --sepia-gold: #C2A37C; 
+            --sepia-glow: rgba(194, 163, 124, 0.6);
+            --text-main: #e0e0e0;
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        body { 
+            font-family: 'Montserrat', sans-serif;
+            color: var(--text-main); 
+            background-color: var(--bg-dark); 
+            overflow-x: hidden; 
+        } 
+        
+        h1, h2, h3, .historical-text { font-family: 'Cormorant Garamond', serif; }
+
+        /* --- NAVIGATION --- */
+        .sticky-nav {
+            background-color: rgba(10, 10, 10, 0.9);
+            border-bottom: 1px solid #222;
+            width: 100%;
+            z-index: 1000;
+            position: sticky;
+            top: 0;
+            backdrop-filter: blur(10px);
+        }
+        .nav-inner {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+            height: 60px;
+        }
+        .nav-links { display: flex; gap: 0; height: 100%; align-items: center; list-style: none; }
+        .nav-links > li { height: 100%; display: flex; align-items: center; padding: 0 20px; }
+        .nav-links > li > a { text-transform: uppercase; font-size: 0.8rem; font-weight: 700; color: #fff; text-decoration: none; transition: 0.3s; }
+        .nav-links > li:hover a { color: var(--sepia-gold); }
+
+        /* --- HERO SECTION --- */
+        .legacy-hero {
+            position: relative;
+            height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            overflow: hidden;
+        }
+
+        .hero-bg-image {
+            position: absolute; top: 0; left: 0; width: 100%; height: 100%;
+            /* Replace with Tirurangadi Image */
+            background-image: url('https://i.imgur.com/4y72KzZ.jpg'); 
+            background-size: cover; background-position: center;
+            filter: grayscale(100%) brightness(0.3) sepia(0%);
+            transform: scale(1); transition: filter 3s ease-in-out, transform 20s linear;
+            z-index: 0;
+        }
+        .hero-bg-image.awakened { filter: grayscale(20%) brightness(0.6) sepia(50%); transform: scale(1.1); }
+
+        .hero-overlay { position: absolute; top: 0; left: 0; width: 100%; height: 100%; background: radial-gradient(circle, transparent 0%, #0a0a0a 90%); z-index: 1; }
+
+        .hero-content { position: relative; z-index: 2; text-align: center; max-width: 800px; padding: 20px; }
+        .hero-pre { font-size: 1.2rem; color: var(--sepia-gold); letter-spacing: 3px; text-transform: uppercase; margin-bottom: 20px; opacity: 0; animation: fadeUp 1s 0.5s forwards; }
+        .hero-title { font-size: 5rem; font-weight: 400; line-height: 1; margin-bottom: 30px; opacity: 0; animation: fadeUp 1s 1s forwards; }
+        .hero-title span { font-style: italic; color: var(--sepia-gold); }
+        .hero-desc { font-family: 'Montserrat', sans-serif; font-size: 1.1rem; line-height: 1.8; color: #ccc; opacity: 0; animation: fadeUp 1s 1.5s forwards; }
+
+        /* Rising Embers */
+        .ember-container { position: absolute; top: 0; left: 0; width: 100%; height: 100%; z-index: 1; pointer-events: none; }
+        .ember { position: absolute; bottom: -10px; width: 4px; height: 4px; background: var(--sepia-gold); border-radius: 50%; box-shadow: 0 0 10px var(--sepia-gold); opacity: 0; animation: riseEmber 10s infinite linear; }
+        @keyframes riseEmber {
+            0% { opacity: 0; transform: translateY(0) scale(0); } 20% { opacity: 0.8; } 80% { opacity: 0.6; } 100% { opacity: 0; transform: translateY(-100vh) scale(1); }
+        }
+
+        /* --- TIMELINE SECTION --- */
+        .timeline-section { padding: 150px 0 0 0; position: relative; background: #0a0a0a; overflow: hidden; }
+
+        .timeline-track { position: absolute; left: 50%; top: 0; width: 2px; height: 100%; background: rgba(194, 163, 124, 0.2); transform: translateX(-50%); }
+        .timeline-fill { position: absolute; left: 50%; top: 0; width: 2px; height: 0%; background: var(--sepia-gold); transform: translateX(-50%); box-shadow: 0 0 15px var(--sepia-gold); transition: height 0.1s ease-out; }
+
+        .timeline-block { display: flex; justify-content: center; align-items: center; margin-bottom: 150px; position: relative; opacity: 0; transition: all 1s ease-out; }
+        .timeline-block:nth-child(odd) { flex-direction: row; }
+        .timeline-block:nth-child(even) { flex-direction: row-reverse; }
+        .timeline-block.is-visible { opacity: 1; }
+        
+        .block-content { width: 40%; padding: 40px; background: rgba(20, 20, 20, 0.6); border: 1px solid rgba(194, 163, 124, 0.3); backdrop-filter: blur(5px); position: relative; transition: all 1s ease-out; }
+        .timeline-block:nth-child(odd) .block-content { transform: translateX(-50px); text-align: right; border-right: 3px solid var(--sepia-gold); }
+        .timeline-block:nth-child(even) .block-content { transform: translateX(50px); text-align: left; border-left: 3px solid var(--sepia-gold); }
+        .timeline-block.is-visible .block-content { transform: translateX(0); }
+
+        .timeline-point { position: absolute; left: 50%; width: 20px; height: 20px; background: #0a0a0a; border: 3px solid rgba(194, 163, 124, 0.5); border-radius: 50%; transform: translateX(-50%) scale(0.8); z-index: 5; transition: 0.5s; }
+        .timeline-block.is-visible .timeline-point { background: var(--sepia-gold); border-color: var(--sepia-gold); box-shadow: 0 0 20px var(--sepia-gold); transform: translateX(-50%) scale(1.2); }
+
+        .block-year { font-size: 4rem; color: rgba(194, 163, 124, 0.2); position: absolute; top: -20px; font-weight: 700; z-index: -1; }
+        .timeline-block:nth-child(odd) .block-year { right: 20px; }
+        .timeline-block:nth-child(even) .block-year { left: 20px; }
+        .block-title { font-size: 2.5rem; margin-bottom: 20px; color: var(--sepia-gold); }
+        .block-text { font-family: 'Montserrat', sans-serif; line-height: 1.8; color: #aaa; }
+
+        /* --- THE LIGHT FINALE (Hadith/Verse Glow) --- */
+        .finale-section {
+            position: relative;
+            padding: 100px 20px 150px 20px;
+            text-align: center;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            z-index: 10;
+        }
+
+        /* The glowing orb connecting the timeline */
+        .light-source {
+            width: 2px;
+            height: 100px;
+            background: linear-gradient(to bottom, var(--sepia-gold), transparent);
+            margin-bottom: 0;
+            box-shadow: 0 0 30px var(--sepia-gold);
+        }
+
+        .orb-glow {
+            width: 150px;
+            height: 150px;
+            background: radial-gradient(circle, var(--sepia-gold) 0%, transparent 70%);
+            border-radius: 50%;
+            margin-top: -75px; /* Pull up into the line */
+            filter: blur(20px);
+            opacity: 0.6;
+            animation: pulseGlow 4s infinite ease-in-out;
+        }
+
+        .finale-content {
+            margin-top: -50px; /* Overlap with glow */
+            position: relative;
+            z-index: 11;
+            max-width: 900px;
+        }
+
+        .arabic-text {
+            font-family: 'Amiri', serif;
+            font-size: 2.5rem;
+            color: #fff;
+            margin-bottom: 20px;
+            text-shadow: 0 0 20px var(--sepia-glow);
+            line-height: 1.8;
+        }
+
+        .english-text {
+            font-family: 'Cormorant Garamond', serif;
+            font-size: 1.8rem;
+            color: var(--sepia-gold);
+            font-style: italic;
+            margin-bottom: 20px;
+        }
+
+        .citation {
+            font-family: 'Montserrat', sans-serif;
+            font-size: 0.8rem;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            color: #666;
+        }
+
+        @keyframes pulseGlow {
+            0%, 100% { transform: scale(1); opacity: 0.5; }
+            50% { transform: scale(1.2); opacity: 0.8; }
+        }
+
+        /* --- FOOTER --- */
+        .main-footer { background-color: #000; color: #fff; padding: 50px 10%; border-top: 1px solid #222; text-align: center; position: relative; z-index: 10; }
+
+        @keyframes fadeUp { from { opacity: 0; transform: translateY(30px); } to { opacity: 1; transform: translateY(0); } }
+
+        @media (max-width: 900px) {
+            .hero-title { font-size: 3.5rem; }
+            .timeline-track, .timeline-fill, .timeline-point { left: 20px; }
+            .timeline-block { flex-direction: column !important; align-items: flex-start; margin-left: 50px; margin-bottom: 100px; }
+            .block-content { width: 100%; text-align: left !important; border: 1px solid rgba(194, 163, 124, 0.3) !important; border-left: 3px solid var(--sepia-gold) !important; transform: translateX(0) !important; }
+            .block-year { left: 20px !important; right: auto !important; }
+            .arabic-text { font-size: 1.8rem; }
+        }
+    </style>
+</head>
+<body>
+
+    <nav class="sticky-nav">
+        <div class="nav-inner">
+            <a href="index.html" class="nav-logo">
+                <img src="logooo.png" alt="MSM Logo">
+            </a>
+            <ul class="nav-links">
+                <li><a href="index.html">Home</a></li>
+                <li><a href="#history">History</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <section class="legacy-hero">
+        <div class="hero-bg-image" id="heroImage"></div>
+        <div class="hero-overlay"></div>
+        <div class="ember-container" id="embers"></div>
+        <div class="hero-content">
+            <div class="hero-pre">The Roots of Renaissance</div>
+            <h1 class="hero-title">From the soil of <br><span>Tirurangadi.</span></h1>
+            <p class="hero-desc">
+                Where the seeds of the Kerala Muslim Renaissance were sown. A legacy of education, reform, and intellectual awakening.
+            </p>
+        </div>
+    </section>
+
+    <section class="timeline-section" id="history">
+        <div class="timeline-track"></div>
+        <div class="timeline-fill" id="timelineFill"></div>
+
+        <div class="timeline-block">
+            <div class="timeline-point"></div>
+            <div class="block-content">
+                <span class="block-year">1920s</span>
+                <h2 class="block-title">The Spark</h2>
+                <p class="block-text">Visionaries like KM Moulavi lit the lamp of knowledge, establishing institutions to empower the community through education.</p>
+            </div>
+        </div>
+
+        <div class="timeline-block">
+            <div class="timeline-point"></div>
+            <div class="block-content">
+                <span class="block-year">1960s</span>
+                <h2 class="block-title">The Movement</h2>
+                <p class="block-text">The Mujahid Students Movement (MSM) was born, carrying the baton of renaissance into campuses across Kerala.</p>
+            </div>
+        </div>
+
+        <div class="timeline-block">
+            <div class="timeline-point"></div>
+            <div class="block-content">
+                <span class="block-year">Today</span>
+                <h2 class="block-title">The New Frontier</h2>
+                <p class="block-text">MSM Studios translates centuries of wisdom into the language of the modern world—pixels, code, and storytelling.</p>
+            </div>
+        </div>
+
+        <div class="finale-section">
+            <div class="light-source"></div>
+            <div class="orb-glow"></div>
+
+            <div class="finale-content reveal-on-scroll">
+                <div class="arabic-text">
+                    قُلْ بِفَضْلِ ٱللَّهِ وَبِرَحْمَتِهِۦ فَبِذَٰلِكَ فَلْيَفْرَحُوا۟
+                </div>
+                <div class="english-text">
+                    "Say, 'In the bounty of Allah and in His mercy—in that let them rejoice; it is better than what they accumulate.'"
+                </div>
+                <div class="citation">Surah Yunus (10:58)</div>
+            </div>
+        </div>
+
+    </section>
+
+    <footer class="main-footer">
+        <h3 style="font-family: 'Cormorant Garamond', serif; font-size: 2rem; color: var(--sepia-gold); margin-bottom: 20px;">Honoring the Past. Building the Future.</h3>
+        <p style="color: #666; font-size: 0.8rem;">&copy; 2023 MSM Studios.</p>
+    </footer>
+
+    <script>
+        // 1. Hero Awakening
+        window.addEventListener('load', () => document.getElementById('heroImage').classList.add('awakened'));
+
+        // 2. Embers
+        const emberContainer = document.getElementById('embers');
+        for(let i=0; i<50; i++) {
+            let e = document.createElement('div');
+            e.classList.add('ember');
+            e.style.left = Math.random() * 100 + '%';
+            e.style.animationDuration = (Math.random() * 10 + 8) + 's';
+            e.style.animationDelay = (Math.random() * 10) + 's';
+            emberContainer.appendChild(e);
+        }
+
+        // 3. Timeline Fill
+        const timelineSection = document.querySelector('.timeline-section');
+        const timelineFill = document.getElementById('timelineFill');
+        window.addEventListener('scroll', () => {
+            const sectionTop = timelineSection.offsetTop;
+            const sectionHeight = timelineSection.offsetHeight;
+            const scrollY = window.scrollY;
+            const windowHeight = window.innerHeight;
+            let scrollPercentage = ((scrollY + windowHeight / 2) - sectionTop) / sectionHeight;
+            scrollPercentage = Math.max(0, Math.min(1, scrollPercentage));
+            timelineFill.style.height = `${scrollPercentage * 100}%`;
+        });
+
+        // 4. Reveal Blocks
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach((entry) => {
+                if (entry.isIntersecting) entry.target.classList.add('is-visible');
+            });
+        }, { threshold: 0.3 });
+        document.querySelectorAll('.timeline-block, .finale-content').forEach((el) => observer.observe(el));
+    </script>
+</body>
+</html>

@@ -1,0 +1,453 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Support CRE | Invest in the Future</title>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600;700;800&family=Playfair+Display:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+    <style>
+        /* --- GLOBAL & VARIABLES --- */
+        :root {
+            --bg-dark: #0a0a0a;
+            --cre-gold: #D4AF37; /* Donation Theme Color */
+            --cre-gold-glow: rgba(212, 175, 55, 0.4);
+            --text-main: #f0f0f0;
+            --text-muted: #888;
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        body { 
+            font-family: 'Montserrat', sans-serif; 
+            color: var(--text-main); 
+            background-color: var(--bg-dark); 
+            overflow-x: hidden; 
+        } 
+        a { text-decoration: none; color: inherit; transition: 0.3s; }
+        ul { list-style: none; }
+
+        /* --- BACKGROUND ANIMATION (Rising Light) --- */
+        .network-bg {
+            position: fixed;
+            top: 0; left: 0; width: 100%; height: 100%;
+            z-index: -1;
+            background: radial-gradient(circle at 50% 100%, rgba(212, 175, 55, 0.08) 0%, transparent 60%);
+        }
+        .light-mote {
+            position: absolute;
+            background: var(--cre-gold);
+            border-radius: 50%;
+            opacity: 0;
+            box-shadow: 0 0 10px var(--cre-gold);
+            animation: riseUp 15s infinite ease-in;
+        }
+        @keyframes riseUp {
+            0% { transform: translateY(100vh) scale(0); opacity: 0; }
+            20% { opacity: 0.6; }
+            80% { opacity: 0.4; }
+            100% { transform: translateY(-10vh) scale(1.5); opacity: 0; }
+        }
+
+        /* --- NAVIGATION --- */
+        .sticky-nav {
+            background-color: rgba(10, 10, 10, 0.9);
+            border-bottom: 1px solid #222;
+            width: 100%;
+            z-index: 1000;
+            position: sticky;
+            top: 0;
+            backdrop-filter: blur(10px);
+        }
+        .nav-inner {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+            height: 60px;
+        }
+        .nav-logo img { height: 35px; width: auto; }
+        .nav-links { display: flex; gap: 0; height: 100%; align-items: center; }
+        .nav-links > li { height: 100%; display: flex; align-items: center; padding: 0 20px; }
+        .nav-links > li > a { text-transform: uppercase; font-size: 0.8rem; font-weight: 700; color: #fff; }
+        .nav-links > li:hover { background-color: var(--cre-gold); color: #000; }
+
+        /* --- MAIN LAYOUT --- */
+        .split-container {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            min-height: 100vh;
+            padding-top: 20px;
+        }
+
+        /* LEFT: The Pitch */
+        .left-panel {
+            padding: 80px 60px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            position: relative;
+        }
+        
+        .role-tag {
+            color: var(--cre-gold);
+            font-family: 'Courier New', monospace;
+            font-size: 0.9rem;
+            letter-spacing: 2px;
+            margin-bottom: 20px;
+            display: inline-block;
+            border: 1px solid var(--cre-gold);
+            padding: 5px 15px;
+            border-radius: 20px;
+            width: fit-content;
+        }
+
+        .hero-title {
+            font-size: 4.5rem;
+            font-weight: 800;
+            line-height: 1.1;
+            margin-bottom: 30px;
+        }
+        .hero-title span { color: var(--cre-gold); }
+
+        .hero-desc {
+            font-size: 1.1rem;
+            color: var(--text-muted);
+            line-height: 1.8;
+            max-width: 500px;
+            margin-bottom: 50px;
+        }
+
+        .impact-stats {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 30px;
+            border-top: 1px solid #333;
+            padding-top: 30px;
+        }
+        .stat-box h4 { font-size: 2rem; color: var(--cre-gold); margin-bottom: 5px; }
+        .stat-box p { font-size: 0.8rem; color: #888; text-transform: uppercase; letter-spacing: 1px; }
+
+        /* RIGHT: The Donation Form */
+        .right-panel {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 40px;
+        }
+
+        .donate-form-card {
+            background: rgba(20, 20, 20, 0.8);
+            border: 1px solid #333;
+            padding: 50px;
+            width: 100%;
+            max-width: 550px;
+            border-radius: 15px;
+            box-shadow: 0 20px 50px rgba(0,0,0,0.5);
+            backdrop-filter: blur(10px);
+            position: relative;
+            overflow: hidden;
+        }
+
+        /* Top Border Glow */
+        .donate-form-card::before {
+            content: ''; position: absolute; top: 0; left: 0; width: 100%; height: 3px;
+            background: linear-gradient(90deg, transparent, var(--cre-gold), transparent);
+        }
+
+        .form-header { margin-bottom: 30px; text-align: center; }
+        .form-header h3 { font-size: 1.8rem; margin-bottom: 10px; }
+        .form-header p { color: #666; font-size: 0.8rem; }
+
+        /* Amount Selector */
+        .amount-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 10px;
+            margin-bottom: 25px;
+        }
+        .amount-btn {
+            background: #0f0f0f;
+            border: 1px solid #333;
+            color: #fff;
+            padding: 15px;
+            border-radius: 5px;
+            cursor: pointer;
+            font-family: 'Montserrat', sans-serif;
+            font-weight: 600;
+            transition: 0.3s;
+        }
+        .amount-btn:hover { border-color: var(--cre-gold); color: var(--cre-gold); }
+        .amount-btn.selected { background: var(--cre-gold); color: #000; border-color: var(--cre-gold); box-shadow: 0 0 15px var(--cre-gold-glow); }
+
+        .input-group { position: relative; margin-bottom: 25px; }
+
+        .form-input {
+            width: 100%;
+            background: #0f0f0f;
+            border: 1px solid #333;
+            color: #fff;
+            padding: 15px;
+            font-size: 1rem;
+            font-family: 'Montserrat', sans-serif;
+            border-radius: 5px;
+            outline: none;
+            transition: 0.3s;
+        }
+
+        .form-label {
+            position: absolute;
+            left: 15px;
+            top: 15px;
+            color: #666;
+            font-size: 0.9rem;
+            pointer-events: none;
+            transition: 0.3s;
+            background-color: #0f0f0f;
+            padding: 0 5px;
+        }
+
+        .form-input:focus, .form-input:valid {
+            border-color: var(--cre-gold);
+            box-shadow: 0 0 15px var(--cre-gold-glow);
+        }
+        .form-input:focus ~ .form-label,
+        .form-input:valid ~ .form-label {
+            top: -10px;
+            font-size: 0.75rem;
+            color: var(--cre-gold);
+            font-weight: 600;
+        }
+
+        .submit-btn {
+            width: 100%;
+            padding: 18px;
+            background-color: var(--cre-gold);
+            color: #000;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: 0.3s;
+            margin-top: 10px;
+        }
+        .submit-btn:hover {
+            background-color: #fff;
+            box-shadow: 0 0 30px var(--cre-gold-glow);
+        }
+
+        /* --- HADITH SECTION (Animation) --- */
+        .hadith-section {
+            background-color: #000;
+            padding: 100px 15%;
+            text-align: center;
+            border-top: 1px solid #111;
+            position: relative;
+            z-index: 2;
+        }
+
+        .manifesto-line {
+            font-family: 'Playfair Display', serif;
+            font-size: 1.8rem;
+            line-height: 1.6;
+            color: #222;
+            filter: blur(4px);
+            transition: all 0.6s cubic-bezier(0.165, 0.84, 0.44, 1);
+            cursor: default;
+            display: inline;
+        }
+
+        .manifesto-line:hover {
+            color: #fff;
+            filter: blur(0px);
+            text-shadow: 0 0 15px var(--cre-gold-glow);
+        }
+        
+        .manifesto-line strong {
+            color: var(--cre-gold);
+        }
+
+        .hadith-ref {
+            margin-top: 40px;
+            font-family: 'Montserrat', sans-serif;
+            font-size: 0.8rem;
+            letter-spacing: 2px;
+            color: #555;
+            text-transform: uppercase;
+            opacity: 0.6;
+        }
+
+        /* --- ANIMATIONS --- */
+        .reveal-up { opacity: 0; transform: translateY(30px); animation: fadeUp 0.8s forwards; }
+        .delay-1 { animation-delay: 0.2s; }
+        .delay-2 { animation-delay: 0.4s; }
+        .delay-3 { animation-delay: 0.6s; }
+
+        @keyframes fadeUp { to { opacity: 1; transform: translateY(0); } }
+
+        /* Responsive */
+        @media (max-width: 900px) {
+            .split-container { grid-template-columns: 1fr; }
+            .left-panel { padding: 60px 20px; text-align: center; }
+            .hero-title { font-size: 3rem; }
+            .impact-stats { text-align: center; }
+            .right-panel { padding: 20px; }
+            .manifesto-line { filter: blur(0); color: #555; font-size: 1.2rem; }
+            .manifesto-line:hover { color: #fff; }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="network-bg" id="particles"></div>
+
+    <nav class="sticky-nav">
+        <div class="nav-inner">
+            <a href="cre.html" class="nav-logo">
+                <img src="https://via.placeholder.com/120x40/D4AF37/000000?text=CRE+LOGO" alt="CRE Logo">
+            </a>
+            <ul class="nav-links">
+                <li><a href="cre.html">Back to CRE</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <div class="split-container">
+        
+        <div class="left-panel">
+            <div class="role-tag reveal-up">SUPPORT THE CAUSE</div>
+            
+            <h1 class="hero-title reveal-up delay-1">
+                Invest in <br><span>Eternity.</span>
+            </h1>
+            
+            <p class="hero-desc reveal-up delay-2">
+                Your donation powers the syllabus, trains the faculty, and keeps the lights of knowledge burning in 77 centers across the state.
+            </p>
+
+            <div class="impact-stats reveal-up delay-3">
+                <div class="stat-box">
+                    <h4>100%</h4>
+                    <p>Goes to Education</p>
+                </div>
+                <div class="stat-box">
+                    <h4>2000+</h4>
+                    <p>Students Benefited</p>
+                </div>
+            </div>
+        </div>
+
+        <div class="right-panel">
+            <div class="donate-form-card reveal-up delay-2">
+                <div class="form-header">
+                    <h3>Make a Contribution</h3>
+                    <p>Select an amount or enter your own.</p>
+                </div>
+
+                <form>
+                    <div class="amount-grid">
+                        <button type="button" class="amount-btn">₹500</button>
+                        <button type="button" class="amount-btn selected">₹1000</button>
+                        <button type="button" class="amount-btn">₹5000</button>
+                    </div>
+
+                    <div class="input-group">
+                        <input type="number" class="form-input" placeholder=" " value="1000">
+                        <label class="form-label">Custom Amount (INR)</label>
+                    </div>
+
+                    <div style="display: flex; gap: 20px; margin-bottom: 25px; color: #fff; font-size: 0.9rem;">
+                        <label style="display: flex; align-items: center; gap: 10px; cursor: pointer;">
+                            <input type="radio" name="freq" checked style="accent-color: var(--cre-gold);"> One-time
+                        </label>
+                        <label style="display: flex; align-items: center; gap: 10px; cursor: pointer;">
+                            <input type="radio" name="freq" style="accent-color: var(--cre-gold);"> Monthly (Sadaqah)
+                        </label>
+                    </div>
+
+                    <div class="input-group">
+                        <input type="text" class="form-input" required>
+                        <label class="form-label">Name (Optional for Anonymous)</label>
+                    </div>
+                    <div class="input-group">
+                        <input type="email" class="form-input" required>
+                        <label class="form-label">Email Address (For Receipt)</label>
+                    </div>
+
+                    <button type="submit" class="submit-btn">Proceed to Pay</button>
+
+                    <div class="form-footer">
+                        Secure Payment via Razorpay / Stripe.
+                    </div>
+                </form>
+            </div>
+        </div>
+
+    </div>
+
+    <section class="hadith-section reveal-on-scroll">
+        <div class="manifesto-wrapper">
+            <span class="manifesto-line">"When a human being <strong>dies</strong>, </span>
+            <span class="manifesto-line">his deeds come to an <strong>end</strong> </span>
+            <span class="manifesto-line">except for <strong>three</strong> things: </span>
+            <span class="manifesto-line" style="color: var(--cre-gold); font-weight: 700;">Sadaqah Jariyah (Continuous Charity),</span>
+            <span class="manifesto-line">knowledge which is <strong>beneficial</strong>, </span>
+            <span class="manifesto-line">or a virtuous child who <strong>prays</strong> for him."</span>
+        </div>
+        <div class="hadith-ref">— Prophet Muhammad ﷺ (Sahih Muslim 1631)</div>
+    </section>
+
+    <footer style="background:#000; padding: 20px; text-align: center; border-top: 1px solid #111; color: #444; font-size: 0.7rem;">
+        &copy; 2023 CRE Finance Dept. MSM Studios.
+    </footer>
+
+    <script>
+        // 1. Rising Particles
+        const particleContainer = document.getElementById('particles');
+        for(let i=0; i<40; i++) {
+            let p = document.createElement('div');
+            p.classList.add('light-mote');
+            let size = Math.random() * 4 + 1;
+            p.style.width = size + 'px';
+            p.style.height = size + 'px';
+            p.style.left = Math.random() * 100 + '%';
+            p.style.animationDuration = (Math.random() * 10 + 5) + 's';
+            p.style.animationDelay = (Math.random() * 10) + 's';
+            particleContainer.appendChild(p);
+        }
+
+        // 2. Amount Button Logic
+        const btns = document.querySelectorAll('.amount-btn');
+        const customInput = document.querySelector('input[type="number"]');
+
+        btns.forEach(btn => {
+            btn.addEventListener('click', () => {
+                // Remove active class from all
+                btns.forEach(b => b.classList.remove('selected'));
+                // Add to clicked
+                btn.classList.add('selected');
+                // Update input value
+                let val = btn.innerText.replace('₹', '');
+                customInput.value = val;
+            });
+        });
+
+        // 3. Reveal Animation
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach((entry) => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('is-visible');
+                }
+            });
+        }, { threshold: 0.1 });
+        const hiddenElements = document.querySelectorAll('.reveal-on-scroll');
+        hiddenElements.forEach((el) => observer.observe(el));
+    </script>
+
+</body>
+</html>

@@ -1,0 +1,445 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MSM Writers - The Square Pegs</title>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600;700;800;900&family=Playfair+Display:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+    <style>
+        /* --- GLOBAL & THEME --- */
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        
+        :root {
+            --bg-dark: #0a0a0a;
+            --accent-green: #00bf63;
+            --text-main: #f0f0f0;
+        }
+
+        body { 
+            font-family: 'Montserrat', sans-serif; 
+            color: var(--text-main); 
+            background-color: var(--bg-dark); 
+            overflow-x: hidden; 
+        } 
+        a { text-decoration: none; color: inherit; transition: 0.3s; }
+        ul { list-style: none; }
+
+        /* --- NAVIGATION --- */
+        .sticky-nav {
+            background-color: rgba(10, 10, 10, 0.95);
+            border-bottom: 1px solid #222;
+            width: 100%;
+            z-index: 1000;
+            position: -webkit-sticky;
+            position: sticky;
+            top: 0;
+            backdrop-filter: blur(10px);
+        }
+        .nav-inner {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 0 30px;
+            height: 70px;
+        }
+        .nav-logo img { height: 35px; width: auto; transition: 0.3s; }
+        .nav-logo:hover img { filter: drop-shadow(0 0 5px var(--accent-green)); }
+        
+        .nav-links { display: flex; gap: 30px; height: 100%; align-items: center; }
+        .nav-links li a { 
+            font-size: 0.75rem; font-weight: 600; text-transform: uppercase; 
+            letter-spacing: 1px; color: var(--text-main);
+        }
+        .nav-links li a:hover { color: var(--accent-green); }
+
+        /* --- HERO: THE SQUARE PEGS --- */
+        .writers-hero {
+            position: relative;
+            height: 90vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            overflow: hidden;
+            border-bottom: 1px solid #222;
+        }
+
+        /* FIXED: Background Circles Visibility */
+        .shape-bg {
+            position: absolute;
+            top: 0; left: 0; width: 100%; height: 100%;
+            z-index: 0;
+            pointer-events: none; /* Allows clicking through */
+        }
+        .bg-shape {
+            position: absolute;
+            border: 2px solid rgba(255, 255, 255, 0.15); /* More visible border */
+            border-radius: 50%;
+            animation: floatShape 15s infinite linear;
+        }
+        
+        /* FIXED: Square Peg Position & Z-Index */
+        .square-peg {
+            position: absolute;
+            width: 80px; height: 80px;
+            background-color: rgba(0,0,0,0.5); /* Semi-transparent bg */
+            border: 3px solid var(--accent-green);
+            top: 50%; left: 50%; /* Centered initially or adjusted via JS */
+            transform: translate(-50%, -50%) rotate(45deg);
+            box-shadow: 0 0 40px var(--accent-green);
+            animation: pulseSquare 4s infinite ease-in-out;
+            z-index: 1; /* Behind text, above background */
+        }
+
+        @keyframes floatShape {
+            0% { transform: translateY(100vh) rotate(0deg); opacity: 0; }
+            20% { opacity: 1; }
+            80% { opacity: 1; }
+            100% { transform: translateY(-20vh) rotate(360deg); opacity: 0; }
+        }
+        @keyframes pulseSquare {
+            0%, 100% { transform: translate(-50%, -50%) rotate(45deg) scale(1); box-shadow: 0 0 20px var(--accent-green); }
+            50% { transform: translate(-50%, -50%) rotate(45deg) scale(1.2); box-shadow: 0 0 60px var(--accent-green); }
+        }
+
+        .hero-content { 
+            position: relative; 
+            z-index: 10; /* Ensures text is ON TOP of square */
+            max-width: 900px; 
+            padding: 0 20px; 
+            /* Glassmorphism to ensure readability if square passes behind */
+            text-shadow: 0 5px 20px #000;
+        }
+        
+        .hero-pre {
+            font-family: 'Playfair Display', serif;
+            font-style: italic;
+            font-size: 1.5rem;
+            color: var(--accent-green);
+            margin-bottom: 10px;
+            animation: fadeUp 1s ease-out;
+        }
+        
+        .hero-title {
+            font-size: 5rem;
+            font-weight: 800;
+            line-height: 1;
+            text-transform: uppercase;
+            margin-bottom: 30px;
+            letter-spacing: -2px;
+            animation: fadeUp 1s 0.2s ease-out backwards;
+        }
+        .hero-title span { -webkit-text-stroke: 1px #fff; color: transparent; }
+        
+        .hero-sub {
+            font-size: 1.1rem;
+            color: #bbb; /* Lighter for visibility */
+            line-height: 1.6;
+            max-width: 600px;
+            margin: 0 auto;
+            animation: fadeUp 1s 0.4s ease-out backwards;
+        }
+
+        /* --- SECTION: THE CONDITION --- */
+        .condition-section {
+            padding: 120px 10%;
+            background-color: #0a0a0a;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+        }
+        .quote-box {
+            border-left: 4px solid var(--accent-green);
+            padding-left: 40px;
+            max-width: 800px;
+        }
+        .quote-text {
+            font-family: 'Montserrat', sans-serif;
+            font-size: 3.5rem;
+            font-weight: 900;
+            line-height: 1.1;
+            text-transform: uppercase;
+            color: #fff;
+        }
+        .quote-highlight { color: var(--accent-green); }
+        .quote-author {
+            margin-top: 30px;
+            font-family: 'Courier New', monospace;
+            color: #666;
+            letter-spacing: 2px;
+            font-size: 0.9rem;
+        }
+
+        /* --- SECTION: PAPER TO PIXELS --- */
+        .online-section {
+            padding: 100px 10%;
+            background: linear-gradient(180deg, #0a0a0a 0%, #111 100%);
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            align-items: center;
+            gap: 60px;
+            overflow: hidden;
+        }
+        .online-text h2 { font-size: 3rem; font-weight: 700; margin-bottom: 20px; line-height: 1.2; }
+        .online-text p { color: #888; font-size: 1rem; line-height: 1.6; margin-bottom: 40px; }
+        .stat-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; }
+        .stat-card { background: rgba(255,255,255,0.05); padding: 20px; border-radius: 8px; border: 1px solid #333; }
+        .stat-num { font-size: 2rem; font-weight: 700; color: var(--accent-green); display: block; }
+        .stat-desc { font-size: 0.8rem; color: #aaa; text-transform: uppercase; }
+
+        .book-container { perspective: 1000px; display: flex; justify-content: center; }
+        .book {
+            width: 300px; height: 400px; background-color: #222;
+            position: relative; transform: rotateY(-30deg) rotateX(20deg);
+            transform-style: preserve-3d; box-shadow: 20px 20px 50px rgba(0,0,0,0.5);
+            transition: transform 0.5s;
+        }
+        .book:hover { transform: rotateY(-10deg) rotateX(10deg); }
+        .book::before {
+            content: ''; position: absolute; top: 5px; right: -10px;
+            width: 20px; height: 390px; background: #fff;
+            transform: rotateY(90deg); transform-origin: right;
+        }
+        .hologram-text {
+            position: absolute; top: -100px; left: 50%; transform: translateX(-50%);
+            color: var(--accent-green); font-family: 'Playfair Display', serif;
+            font-size: 1.5rem; text-align: center; opacity: 0.8;
+            text-shadow: 0 0 10px var(--accent-green); animation: floatHolo 3s infinite ease-in-out;
+        }
+        .hologram-beam {
+            position: absolute; bottom: -20px; left: 10%; width: 80%; height: 150px;
+            background: linear-gradient(to top, rgba(0, 191, 99, 0) 0%, rgba(0, 191, 99, 0.2) 100%);
+            clip-path: polygon(20% 100%, 80% 100%, 100% 0, 0 0); transform: scaleY(-1);
+        }
+
+        /* --- ZEN FORM --- */
+        .zen-form-section { padding: 100px 10%; background-color: #0a0a0a; text-align: center; }
+        .zen-title { font-family: 'Playfair Display', serif; font-size: 3rem; margin-bottom: 10px; color: #fff; }
+        .zen-sub { color: #666; margin-bottom: 50px; font-size: 1rem; }
+        .writer-form { max-width: 600px; margin: 0 auto; text-align: left; }
+        .form-group { margin-bottom: 30px; position: relative; }
+        .form-input {
+            width: 100%; background: transparent; border: none; border-bottom: 2px solid #333;
+            padding: 15px 0; color: #fff; font-size: 1.2rem; font-family: 'Montserrat', sans-serif;
+            outline: none; transition: 0.3s;
+        }
+        .form-input:focus { border-color: var(--accent-green); }
+        .form-label {
+            position: absolute; top: 15px; left: 0; color: #666; pointer-events: none;
+            transition: 0.3s; text-transform: uppercase; font-size: 0.8rem; letter-spacing: 1px;
+        }
+        .form-input:focus ~ .form-label, .form-input:valid ~ .form-label { top: -10px; font-size: 0.7rem; color: var(--accent-green); }
+        .submit-btn {
+            background-color: var(--accent-green); color: #000; border: none; padding: 20px 60px;
+            font-size: 1rem; font-weight: 700; text-transform: uppercase; letter-spacing: 2px;
+            cursor: pointer; margin-top: 20px; transition: 0.3s; display: block; margin-left: auto; margin-right: auto;
+        }
+        .submit-btn:hover { background-color: #fff; box-shadow: 0 0 20px rgba(0, 191, 99, 0.4); }
+
+        /* --- NEW: "THE CRAZY ONES" QUOTE (HOVER REVEAL) --- */
+        .crazy-ones-section {
+            background-color: #000;
+            padding: 100px 15%;
+            text-align: center;
+            border-top: 1px solid #111;
+        }
+
+        .manifesto-line {
+            font-family: 'Montserrat', sans-serif;
+            font-size: 1.8rem; /* Large readable text */
+            font-weight: 700;
+            line-height: 1.6;
+            color: #222; /* Very dark grey - almost invisible */
+            filter: blur(4px); /* Start blurred */
+            transition: all 0.6s cubic-bezier(0.165, 0.84, 0.44, 1);
+            cursor: default;
+            display: inline; /* keeps it flowing */
+        }
+
+        /* The Magic: Reveal on Hover */
+        .manifesto-line:hover {
+            color: #fff; /* Turn White */
+            filter: blur(0px); /* Remove Blur */
+            text-shadow: 0 0 10px rgba(255,255,255,0.5);
+        }
+        
+        /* Highlight specific keywords on hover */
+        .manifesto-line:hover strong {
+            color: var(--accent-green);
+        }
+
+        /* --- FOOTER --- */
+        .main-footer {
+            background-color: #000; color: #fff; padding: 80px 10% 20px 10%; border-top: 1px solid #222; text-align: center;
+        }
+        .copyright-bar { border-top: 1px solid #222; padding-top: 20px; margin-top: 50px; font-size: 0.7rem; color: #444; display: flex; justify-content: space-between; }
+
+        /* --- ANIMATIONS --- */
+        @keyframes floatHolo {
+            0%, 100% { transform: translateX(-50%) translateY(0); opacity: 0.5; }
+            50% { transform: translateX(-50%) translateY(-10px); opacity: 1; }
+        }
+        @keyframes fadeUp {
+            from { opacity: 0; transform: translateY(30px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        .reveal-on-scroll { opacity: 0; filter: blur(10px); transform: translateY(30px); transition: all 1s ease-out; }
+        .reveal-on-scroll.is-visible { opacity: 1; filter: blur(0); transform: translateY(0); }
+
+        @media (max-width: 900px) {
+            .hero-title { font-size: 3rem; }
+            .online-section { grid-template-columns: 1fr; }
+            .book-container { order: -1; margin-bottom: 50px; }
+            .quote-text { font-size: 2rem; }
+            .manifesto-line { font-size: 1.2rem; filter: blur(0); color: #666; } /* Remove blur on mobile for readability */
+            .manifesto-line:hover { color: #fff; }
+        }
+    </style>
+</head>
+<body>
+
+    <nav class="sticky-nav">
+        <div class="nav-inner">
+            <a href="index.html" class="nav-logo">
+                <img src="msm logoo.png" alt="MSM Logo">
+            </a>
+            <ul class="nav-links">
+                <li><a href="index.html">Home</a></li>
+                <li><a href="#">Manifesto</a></li>
+                <li><a href="#">Community</a></li>
+                <li><a href="#">Submit</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <section class="writers-hero">
+        <div class="shape-bg" id="shape-bg"></div>
+        <div class="square-peg"></div>
+
+        <div class="hero-content">
+            <div class="hero-pre">For the Misfits.</div>
+            <h1 class="hero-title">Calling the <br><span>Square Pegs</span></h1>
+            <p class="hero-sub">The round holes are full. We are building a new geometry for storytellers, poets, and thinkers who don't fit the mold.</p>
+        </div>
+    </section>
+
+    <section class="condition-section reveal-on-scroll">
+        <div class="quote-box">
+            <p class="quote-text">
+                "To be a <span class="quote-highlight">Poet</span> is a condition, not a profession."
+            </p>
+            <p class="quote-author">— Robert Frost (Reimagined for the Digital Age)</p>
+        </div>
+    </section>
+
+    <section class="online-section">
+        <div class="online-text reveal-on-scroll">
+            <h2>Bringing the <br><span style="color: var(--accent-green);">Notebook</span> Online.</h2>
+            <p>Over half the world's greatest stories are trapped in physical notebooks, hidden in drawers, or lost in the noise. MSM provides the platform to amplify your voice without compromising your art.</p>
+            
+            <div class="stat-grid">
+                <div class="stat-card">
+                    <span class="stat-num">50k+</span>
+                    <span class="stat-desc">Writers Joined</span>
+                </div>
+                <div class="stat-card">
+                    <span class="stat-num">1.2M</span>
+                    <span class="stat-desc">Stories Shared</span>
+                </div>
+            </div>
+        </div>
+
+        <div class="book-container reveal-on-scroll">
+            <div class="book">
+                <div class="hologram-text">Your Story<br>Alive</div>
+                <div class="hologram-beam"></div>
+            </div>
+        </div>
+    </section>
+
+    <section class="zen-form-section reveal-on-scroll">
+        <h2 class="zen-title">Claim Your Condition</h2>
+        <p class="zen-sub">Join the MSM Writers Collective. No noise. Just words.</p>
+
+        <form class="writer-form">
+            <div class="form-group">
+                <input type="text" class="form-input" required>
+                <label class="form-label">Name or Pen Name</label>
+            </div>
+            <div class="form-group">
+                <input type="email" class="form-input" required>
+                <label class="form-label">Email Address</label>
+            </div>
+            <div class="form-group">
+                <input type="text" class="form-input" required>
+                <label class="form-label">Your Genre / Style</label>
+            </div>
+            <button type="submit" class="submit-btn">Join The Collective</button>
+        </form>
+    </section>
+
+    <section class="crazy-ones-section reveal-on-scroll">
+        <div class="manifesto-wrapper">
+            <span class="manifesto-line">Here's to the <strong>crazy ones</strong>. </span>
+            <span class="manifesto-line">The misfits. </span>
+            <span class="manifesto-line">The rebels. </span>
+            <span class="manifesto-line">The <strong>troublemakers</strong>. </span>
+            <span class="manifesto-line">The round pegs in the square holes. </span>
+            <span class="manifesto-line">The ones who see things differently. </span>
+            <span class="manifesto-line">They're not fond of rules. </span>
+            <span class="manifesto-line">And they have no respect for the status quo. </span>
+            <span class="manifesto-line">You can quote them, disagree with them, glorify or vilify them. </span>
+            <span class="manifesto-line">About the only thing you can't do is ignore them. </span>
+            <span class="manifesto-line">Because they <strong>change things</strong>. </span>
+            <span class="manifesto-line">They push the human race forward. </span>
+            <span class="manifesto-line">And while some may see them as the crazy ones, we see genius. </span>
+            <span class="manifesto-line" style="color: var(--accent-green); filter: blur(1px);">Because the people who are crazy enough to think they can change the world, are the ones who do.</span>
+        </div>
+    </section>
+
+    <footer class="main-footer reveal-on-scroll">
+        <h2 style="margin-bottom: 20px; font-weight: 800; text-transform: uppercase;">MSM Studios</h2>
+        <div class="copyright-bar">
+            <span>&copy; 2023 MSM Journal.</span>
+            <span>Made by MSM Studios</span>
+        </div>
+    </footer>
+
+    <script>
+        // 1. Generate Background Circles
+        const bgContainer = document.getElementById('shape-bg');
+        for(let i=0; i<20; i++) { // Increased count
+            let circle = document.createElement('div');
+            circle.classList.add('bg-shape');
+            let size = Math.random() * 100 + 20;
+            circle.style.width = size + 'px';
+            circle.style.height = size + 'px';
+            // Random positioning
+            circle.style.left = Math.random() * 100 + '%';
+            // Staggered animation
+            circle.style.animationDuration = (Math.random() * 15 + 10) + 's';
+            circle.style.animationDelay = (Math.random() * 5) + 's';
+            bgContainer.appendChild(circle);
+        }
+
+        // 2. Scroll Reveal
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach((entry) => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('is-visible');
+                } else {
+                    entry.target.classList.remove('is-visible');
+                }
+            });
+        }, { threshold: 0.1 });
+        const hiddenElements = document.querySelectorAll('.reveal-on-scroll');
+        hiddenElements.forEach((el) => observer.observe(el));
+    </script>
+</body>
+</html>
